@@ -176,7 +176,6 @@ server_analysis <- function(input, output, session, session.data) {
     } else {
       output$analysis.run.message <- renderUI(h5(HTML('<font color="red";>Analysis already submitted; refressh your browser to start a new analysis session.</font>')));
     }
-
   });
   
   session.data;

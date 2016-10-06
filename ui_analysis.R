@@ -1,9 +1,6 @@
 #########################################################################################################
 tabPanel(
   "Analysis", 
-  wellPanel(style=c("background-color: #CCCCCC; padding: 2px; border-color:#EEEEEE;"),
-            h1(HTML('<div align="right">Welcome to <i><u>RNA-seq 2G</u></i>&nbsp&nbsp</div>')), 
-            h4(HTML('<div align="right"><font color="grey">An online portal for analysis of 2-group differential expression&nbsp&nbsp</font></div>'))),
   h1(HTML('<font color="tomato" face="Comic Sans MS"><center><b>Run analysis</b></center></font>')),
   
   #########################################################################

@@ -52,7 +52,7 @@ rnaseq2g.retrieve.result <- function(dir) {
         ln <- readLines(fn);
         st <- as.integer(sapply(strsplit(ln, '\t'), function(x) x[2]));
         st <- st[st==0]; 
-        if (length(st) == 0) e <- '<font color="red">None of the DE methods generated errors:</font>' else 
+        if (length(st) == 0) e <- '<font color="darkgreen">None of the DE methods generated errors.</font>' else 
           if (length(st) == 1) e <- '<font color="red">One of the DE methods generated errors:</font>' else
               e <- paste('<font color="red">', length(st), 'of the DE methods generated errors:</font>', sep='');
         err <- c(err, paste('<p>', e, '</p>', sep=''));

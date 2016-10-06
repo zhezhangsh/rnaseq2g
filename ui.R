@@ -4,12 +4,13 @@
 
 print("loading UI");
 
-source("/srv/shiny-server/rnaseq_2g_zhangz/preload.R");
+source("/srv/shiny-server/rnaseq_2g/preload.R");
 
 shinyUI(
   
   navbarPage(
-    title = "RNA-seq 2G",
+    title = HTML("<u><i>RNA-seq 2G</i></u>&nbsp&nbsp",
+                 "<font color='white' size=1>A web portal of 2-group differential expression</font>"),
     id    = "main_menu",
     theme = shinytheme("united"),
     
