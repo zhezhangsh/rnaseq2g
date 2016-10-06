@@ -1,0 +1,47 @@
+---
+output:
+  html_document:
+    theme: null
+    mathjax: null
+---
+
+Run DE analysis using the code below based on the **DEGandMore::DeRNAseq** function. 
+
+<div style="padding:0 .5cm; border: 0px; background:#F8F8F8; padding: 0cm 0cm">
+```{r include=TRUE, results='hide', eval=FALSE, echo=TRUE}
+require(RoCA);
+require(DEGandMore); 
+
+# Import read count matrix and sample grouping from files; see above for acceptable file formats
+read.count   <- ImportTable('my_read_count_file');
+sample.group <- ImportList('my_sample_group_file');
+
+# Set up parameters
+pr <- FALSE;   # change to TRUE for paired test
+md <- 0;       # change to 1-4 for other method groups or specific method names
+mc <- 6;       # change to another non-negative integer for a different cutoff
+nc <- 1;       # change to 2 or higher if the system supports parallel computing
+n1 <- 'DESeq'; # change to "TMM", "RLE", "QQ", "UpperQuantile", "Median", or "TotalCount" to use other methods
+n2 <- 'Loess'; # change to "VST", "Rlog", "QQ", "UpperQuantile", or "Median" to use other methods
+
+####################################################################################################
+# Run DE analysis
+my.analysis.result <- DeRNAseq(ct = read.count, grps = sample.group, mthds = md, paired = pr,
+                               min.count = mc, num.cluster = nc, just.stat = TRUE, 
+                               norm.count = n1, norm.logged = n2, force.norm = TRUE);
+# note that the parameters 'just.stat' and 'force.norm' should always be TRUE for RNAseq 2G
+####################################################################################################
+
+# save results to file
+saveRDS(my.analysis.result, 'my_analysis_result.rds');
+# the 'my_analysis_result.rds' file can now be uploaded to the RNAseq 2G web portal for visualizaiton
+```
+</div>
+
+Alternatively, simply run DE analysis using just 2 specific methods and default parameters.
+
+<div style="padding:0 .5cm; border: 0px; background:#F8F8F8; padding: 0cm 0cm">
+```{r include=TRUE, results='hide', eval=FALSE, echo=TRUE}
+my.analysis.result <- DeRNAseq(read.count, sample.group, c('DeEdgeR', 'DeDeSeq'), force.norm = TRUE);
+```
+</div>

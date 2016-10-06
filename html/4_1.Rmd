@@ -1,0 +1,24 @@
+---
+output:
+  html_document:
+    theme: null
+    mathjax: null
+---
+
+Open RStudio or R console, **make sure the base version of R is 3.2 or higher and have the _devtools_ package installed**, using the code below to find out.
+
+<div style="padding:0 .5cm; border: 0px; background:#F8F8F8; padding: 0cm 0cm">
+```{r include=TRUE, results='hide', eval=FALSE, echo=TRUE}
+version;
+if(!require('devtools')) install.packages('devtools'); 
+```
+</div>
+
+Install all required R packages from CRAN, Bioconductor, and GitHub and test if they can be loaded properly using the code below. Depending on how many packages need to be installed, this process might take a while. If everything goes well, you will get a message at the end of screen messages, saying _"Congratulations! All required packages have been installed and loaded."_
+
+<div style="padding:0 .5cm; border:0px; background:#F8F8F8; padding: 0cm 0cm">
+```{r include=TRUE, results='hide', eval=FALSE, echo=TRUE}
+require(devtools);
+source_url("https://raw.githubusercontent.com/zhezhangsh/DEGandMore/master/installer.r"); 
+```
+</div>

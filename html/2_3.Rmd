@@ -1,0 +1,32 @@
+---
+output:
+  html_document:
+    theme: null
+    mathjax: null
+---
+
+Users also need to specify a few parameters to run the DE analysis:
+
+ - **Paired**: Whether the comparison is paired. Only applicable to DE methods supporting paired test. The compared groups must have the same number of samples for paired test and the paired samples need to be organized in the same order. 
+ - **Missing value**: What to do with missing values. The options are replacing missing values with 0 and removing the genes including any missing values. The imputation option is currently not available, so users need to do it themselves if they want their data imputed. Indeed, it's highly encouraged that users handle the missing values with their favorite strategy beforehand. 
+ - **Minimal count**: Genes with total read counts from all samples less than this number will not be included in the result.
+ - **Normalization**: How to normalize the read count matrix if the DE method has no its own methods. 
+
+    - **Normalization of read count**: How to normalize read count data. The options are "DESeq", "TMM", "RLE", "QQ", "UpperQuantile", "Median", and "TotalCount".
+    
+        - **DESeq**: the default normalization method provided the **DESeq2** package.
+        - **TMM**: the "trimmed mean of M-values" method provided by the **EdgeR** package.
+        - **RLE**: the "relative log expression" method provided by the **EdgeR** package.
+        - **QQ**: the quantile-quantile normalization to make all samples have the exactly same distribution.
+        - **UpperQuantile**: rescale data so all the samples have the same upper quantile.
+        - **Median**: rescale data so all the samples have the same median.
+        - **TotalCount**: rescale data so all the samples have the same total number of read counts.
+        
+    - **Normalization of logged data**: How to normalize data after it's log-transformed. The options are "Loess", "VST", "Rlog", "QQ", "UpperQuantile", and "Median".
+    
+        - **Loess**: fit pairs of samples to local regression.
+        - **VST**: the "variance stabilizing transformation" method provided the **DESeq2** package.
+        - **Rlog**: the "regularized log transformation" method provided the **DESeq2** package.
+        - **QQ**: the quantile-quantile normalization to make all samples have the exactly same distribution.
+        - **UpperQuantile**: rescale data so all the samples have the same median.
+        - **Median**: rescale data so all the samples have the same median.

@@ -1,0 +1,14 @@
+---
+output:
+  html_document:
+    theme: null
+    mathjax: null
+---
+
+Using gene-level data from RNA-seq as an example, the read count matrix should have rows corresponding to unique genes and columns corresponding to unique samples, and each cell should be the number of sequencing reads of a sample mapped to a gene. Missing values are allowed, and will be dealt with before the analysis starts. **The row and column names of the matrix must be unique gene and sample IDs respectively.** The type of gene IDs (official symbols, RefSeq, etc.) doesn't matter. **RNA-seq 2G** accepts the read count matrix in different types of files and examples can be downloaded [here](https://github.com/zhezhangsh/awsomics/raw/master/rnaseq_2g/data/count_example.zip).
+
+  - **R file**(***.rds, .rda, or .rdata***) that saves the read count matrix as a matrix or data.frame object.
+  - **Tab-delimited text file**(***.txt***) that has the gene IDs in the first column and sample IDs in the first row. 
+  - **Comma-delimited text file**(***.csv***) that has the gene IDs in the first column and sample IDs in the first row. 
+  - **Excel file**(***.xls or .xlsx***) that has the matrix in the first worksheet and the gene and sample IDs in the first column and row. 
+  - **HTML file**(***.htm or .html***) that has the matrix as the first HTML table within the ***table*** tag.

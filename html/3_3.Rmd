@@ -1,0 +1,17 @@
+---
+output:
+  html_document:
+    theme: null
+    mathjax: null
+---
+
+<div align='center'>
+<figure><img src="figure/analysis_step3.png", width='95%'></figure>
+</div>
+<div style="color:darkblue; padding:0 1cm">
+**Figure 1C.** Set up online DE analysis, Step 3.
+
+  - **A:** pick the DE methods to run.
+  - **B:** quickly pick a subset of methods to run.
+  - **C:** click to show detailed description of all DE methods. 
+</div>

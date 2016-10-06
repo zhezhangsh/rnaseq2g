@@ -1,0 +1,24 @@
+---
+output:
+  html_document:
+    theme: null
+    mathjax: null
+---
+
+Available DE methods and method groups can be found using the code below.
+
+```{r eval=TRUE, echo=TRUE, include=FALSE}
+options(width=120);
+require(DEGandMore);
+```
+
+<div style="padding:0 .5cm; border: 0px; background:#F8F8F8; padding: 0cm 0cm">
+```{r eval=TRUE, results="markup"}
+require(DEGandMore);
+DeRNAseqMethods(group=0); # Default methods
+DeRNAseqMethods(group=1); # Fast methods
+DeRNAseqMethods(group=2); # Fast+medium methods
+DeRNAseqMethods(group=3); # Fast+medium+slow methods
+DeRNAseqMethods(group=4); # All methods
+```
+</div>

@@ -1,0 +1,13 @@
+---
+output:
+  html_document:
+    theme: null
+    mathjax: null
+---
+
+Sample IDs should be grouped into two groups to be compared. The sample IDs must match the column names of the read count matrix. The default names of the groups  are ***Control*** and ***Case*** if the they are not explicitly named. **For paired test**, both groups must have the same number of samples and the paired samples must be in the same order.** **RNA-seq 2G** allows users to type in the group names and sample IDs directly or upload a formmated file. Examples of acceptable file formats can be downloaded [here](https://github.com/zhezhangsh/awsomics/raw/master/rnaseq_2g/data/group_example.zip).
+
+  - **R file**(***.rds, .rda, or .rdata***) that is a list of two named character vectors of sample IDs.
+  - **Tab-delimited text file**(***.txt***) that includes two lines, both started with group name and followed by sample IDs.
+  - **Comma-delimited text file**(***.csv***) that includes two lines, both started with group name and followed by sample IDs.
+  - **Excel file**(***.xls or .xlsx***) that includes two rows, both started with group name and followed by sample IDs.
