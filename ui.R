@@ -9,10 +9,10 @@ source("/srv/shiny-server/rnaseq_2g/preload.R");
 shinyUI(
   
   navbarPage(
-    title = HTML("<u><i>RNA-seq 2G</i></u>&nbsp&nbsp",
-                 "<font color='white' size=1>A web portal of 2-group differential expression</font>"),
-    id    = "main_menu",
-    theme = shinytheme("united"),
+    title        = HTML("<b><u><i>RNA-seq 2G</i></u></b>&nbsp&nbsp", "<font color='#F0F0F0' size=1><b><i>A web portal of 2-group DE analysis</i></b></font>"),
+    windowTitle  = "RNA-seq 2G", 
+    id           = "main_menu",
+    theme        = shinytheme("united"),
     
     source('ui_analysis.R', local=TRUE)$value,
     source('ui_result.R', local=TRUE)$value,

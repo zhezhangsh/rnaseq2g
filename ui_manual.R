@@ -49,8 +49,7 @@ tabPanel(
         tabPanel('Step 1', HTML('&nbsp;'), uiOutput('manual.3.1')),
         tabPanel('Step 2', HTML('&nbsp;'), uiOutput('manual.3.2')),
         tabPanel('Step 3', HTML('&nbsp;'), uiOutput('manual.3.3')),
-        tabPanel('Submit analysis', HTML('&nbsp;'), 
-                 HTML('<div style="color:red; padding:0 0.5cm;">***TO BE FINISHED***</div>&nbsp;')))
+        tabPanel('Submit analysis', HTML('&nbsp;'), uiOutput('manual.3.4')))
       )
     ),
     tabPanel(
@@ -70,7 +69,10 @@ tabPanel(
     ),
     tabPanel(
       "Browse results", HTML('&nbsp;'), 
-      HTML('<div style="color:red; padding:0 0.5cm;">***TO BE FINISHED***</div>&nbsp;')
+      div(style="padding: 0.5cm", tabsetPanel(
+        tabPanel('Load results', HTML('&nbsp;'), uiOutput('manual.5.1'))
+        )
+      )
     )
   )) # END of main manual tabset
 )  

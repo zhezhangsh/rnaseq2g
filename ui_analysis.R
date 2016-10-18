@@ -10,6 +10,7 @@ tabPanel(
     p(HTML(" - Rows and columns are correspondingly genes and samples.")), 
     div(style="display: inline-block;", HTML(" - Accept ")),
     div(style="display: inline-block;", downloadLink('analysis.step1.txt', '.txt, ')),
+    div(style="display: inline-block;", downloadLink('analysis.step1.tsv', '.tsv, ')),
     div(style="display: inline-block;", downloadLink('analysis.step1.csv', '.csv, ')),
     div(style="display: inline-block;", downloadLink('analysis.step1.rds', '.rds, ')),
     div(style="display: inline-block;", downloadLink('analysis.step1.rdata', '.rdata, ')),
@@ -115,14 +116,14 @@ tabPanel(
     div(style="display: inline-block;", HTML("&nbsp&nbsp&nbsp")),
     div(style="display: inline-block;", actionButton("analysis.run", 'Submit DE analysis', width='200px', icon("paper-plane"), style=button.style)),
     div(style="display: inline-block;", HTML("&nbsp&nbsp&nbsp")),
-    div(style="display: inline-block;", htmlOutput("analysis.id.message")),
-    hr(),
-    column(
-      12,
-      div(style="display: inline-block;", textInput('analysis.email', label=NULL, width='200px')),
-      div(style="display: inline-block;", HTML("&nbsp&nbsp&nbsp")),
-      div(style="display: inline-block;", 
-          HTML("<font size='3'>Send a notice to this email address after the analysis is done (optional).</font>"))
-    )
+    div(style="display: inline-block;", htmlOutput("analysis.id.message"))
+    # hr(),
+    # column(
+    #   12,
+    #   div(style="display: inline-block;", textInput('analysis.send.email', label=NULL, width='200px')),
+    #   div(style="display: inline-block;", HTML("&nbsp&nbsp&nbsp")),
+    #   div(style="display: inline-block;", 
+    #       HTML("<font size='3'>Send a notice to this email address after the analysis is done (optional).</font>"))
+    # )
   ))
 )

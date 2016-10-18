@@ -3,7 +3,11 @@ tabPanel(
   "Comparison",
   h1(HTML('<font color="tomato" face="Comic Sans MS"><center><b>Compare methods</b></center></font>')),
   
-  h4(HTML('&nbsp&nbsp&nbsp<font color="darkgreen">Show comparison when results from 2 or more DE methods are available.</font>')),
+  conditionalPanel(
+    condition = 'input["compare.select.table2"] == ""', 
+    h4(HTML('&nbsp&nbsp&nbsp<font color="darkgreen">Show comparison when results from 2 or more DE methods are available.</font>'))
+  ),
+  
   conditionalPanel(condition = 'input["compare.select.table2"] != ""', wellPanel(fluidRow(
     h3(HTML('&nbsp&nbsp&nbspCompare global pattern between 2 methods')),
     column(
@@ -39,12 +43,11 @@ tabPanel(
   ))),
   conditionalPanel(condition = 'input["compare.select.table2"] != ""', wellPanel(fluidRow(
     h3(HTML("&nbsp&nbsp&nbspCompare results of a single gene between methods")),
-    div(style="display:inline-block;", HTML("&nbsp;&nbsp;&nbsp;")),
+    div(style="display:inline-block;", HTML("&nbsp;&nbsp;&nbsp;&nbsp;")),
     div(style="display:inline-block;", textInput("compare.single.id", NULL, value = "")),
-    div(style="display:inline-block;", HTML("&nbsp;&nbsp;&nbsp;")),
-    div(style="display:inline-block;", HTML("&nbsp;&nbsp;&nbsp;")),
+    div(style="display:inline-block;", HTML("&nbsp;&nbsp;&nbsp;&nbsp;")),
     div(style="display:inline-block", htmlOutput("compare.single.msg")),
-    conditionalPanel(condition = 'input["compare.single.id"] != ""', fluidPage(
+    conditionalPanel(condition = 'input["compare.single.id"] != ""', 
       column(7, DT::dataTableOutput('compare.single.table', width='100%')),
       column(
         5,
@@ -56,6 +59,6 @@ tabPanel(
         ),
         plotOutput('compare.single.plot', width = '100%', height = '480px')
       )
-    ))
+    )
   )))
 )

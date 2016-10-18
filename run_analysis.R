@@ -23,6 +23,7 @@ if (!file.exists(fn)) {
   if (!file.exists(fs)) file.remove(fs); 
   file.create(fs);
   
+  # RUNNING
   msg <- sapply(mthd, function(m) {
     lg <- DeMethodMeta[m, 'Logged'] == 'Yes';
     nm <- DeMethodMeta[m, 'Normalization'] == 'Yes';
@@ -48,14 +49,16 @@ if (!file.exists(fn)) {
     #####################################################################
   });
   
-  success[is.na(msg)] <- 1; 
-  sta <- cbind(mthd, as.vector(success));
-  write.table(sta, paste(args, 'status.txt', sep='/'), row.names = FALSE, col.names = FALSE, sep='\t', qu=FALSE);
-  
+  # Error messages
   msg <- as.vector(msg[!is.na(msg)]);
   if (length(msg) == 0) message <- '' else 
     message <- paste(gsub('\n', '', msg), collapse='\n'); 
-  
   writeLines(message, paste(args, 'message.txt', sep='/'));
+  
+  # fn <- paste(args, 'email.txt', sep='/');
+  # if (file.exists(fn)) {
+  #   ln <- readLines(fn); 
+  #   if (length(ln)>=2 & ln[2]!='') rnaseq2g.send.email(ln[2], ln[1]); 
+  # }
 }
 

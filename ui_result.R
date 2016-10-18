@@ -48,7 +48,7 @@ tabPanel(
           div(style="display: inline-block;", h4(HTML("&nbsp"))),
           div(style="display: inline-block;", 
               tags$head(tags$style(".dB{float:center;} .dB{font-family: Courier New;} .dB{background-color: tomato;} 
-                                   .dB{border-color: black;} .dB{height: 80%;} .dB{width: 108px;} .dB{font-size: 11px;}")),
+                                   .dB{border-color: black;} .dB{height: 80%;} .dB{width: 120px;} .dB{font-size: 11px;}")),
               downloadButton('result.download.current', label = 'This table', class = 'dB'), 
               downloadButton('result.download.all', label = 'All results', class = 'dB')),
           p(),

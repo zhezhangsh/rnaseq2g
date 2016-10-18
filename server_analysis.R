@@ -38,6 +38,10 @@ server_analysis <- function(input, output, session, session.data) {
     filename = function() 'count_example.txt',  
     content  = function(file) write.table(count_example, file, sep='\t', quote = FALSE)
   );
+  output$analysis.step1.tsv <- downloadHandler(
+    filename = function() 'count_example.tsv',  
+    content  = function(file) write.table(count_example, file, sep='\t', quote = FALSE)
+  );
   output$analysis.step1.csv <- downloadHandler(
     filename = function() 'count_example.csv',  
     content  = function(file) write.csv(count_example, file)
@@ -158,15 +162,16 @@ server_analysis <- function(input, output, session, session.data) {
   # Analysis, Run
   output$analysis.id.message <- renderUI(h4(HTML(
     '<font color="black";>Analysis ID:</font><font color="green";>', rnaseq2g.session.dir(session.data), '</font>')));
-
-  observeEvent(input$analysis.run, {
+  
+  observeEvent(input$analysis.run, { 
     if (session.data$run == 0) {
       inp <- rnaseq2g.validate.input(input, output, session, session.data); 
       
       if(!is.null(inp)) {
         fn <- paste(session.data$dir, 'inputs.rds', sep='/'); 
         saveRDS(inp, fn); 
-        
+        writeLines(c(session.data$id, input$analysis.send.email), paste(session.data$dir, 'email.txt', sep='/'));
+
         ################################################################################################
         # Submit analysis
         rnaseq2g.run.analysis(session.data$dir)

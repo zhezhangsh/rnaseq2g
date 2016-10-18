@@ -11,9 +11,11 @@ server_manual <- function(input, output, session, session.data) {
   output$manual.3.1 <- renderUI(includeHTML('html/3_1.html'));
   output$manual.3.2 <- renderUI(includeHTML('html/3_2.html'));
   output$manual.3.3 <- renderUI(includeHTML('html/3_3.html'));  
+  output$manual.3.4 <- renderUI(includeHTML('html/3_4.html'));  
   output$manual.4.1 <- renderUI(includeHTML('html/4_1.html'));
   output$manual.4.2 <- renderUI(includeHTML('html/4_2.html'));
   output$manual.4.3 <- renderUI(includeHTML('html/4_3.html'));  
+  output$manual.5.1 <- renderUI(includeHTML('html/5_1.html'));  
   
   session.data;
 }

@@ -5,6 +5,8 @@ source('server_result.R',   local=TRUE);
 source('server_compare.R',  local=TRUE);
 source('server_manual.R',  local=TRUE);
 
+options(shiny.maxRequestSize=64000000); 
+
 shinyServer(function(input, output, session) {
   cat("new visitor: ", session$token, '\n');
 
