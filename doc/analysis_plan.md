@@ -14,6 +14,6 @@ Over-sensitive methods will fail to differentiate
 Dependence of run time on sample size
 
 
-## "Bad" method
+## "Bad" methods
 
 Bridge: Very slow, inconsistent output, highly disagree with other methods
