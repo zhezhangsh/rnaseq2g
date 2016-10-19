@@ -19,3 +19,4 @@ Dependence of run time on sample size
   - Bridge: Very slow, inconsistent output, highly disagree with other methods
   - BBSeq: not comply with newer R versions; bug in source code for paired test
   - BitSeq: only use RPKM as input
+  - Cuffdiff: under-perform according to previous studies
