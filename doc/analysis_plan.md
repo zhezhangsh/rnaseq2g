@@ -21,3 +21,4 @@ Dependence of run time on sample size
   - BitSeq: only use RPKM as input
   - Cuffdiff: under-perform according to previous studies
   - derfinder: use DESeq2 for gene-level differential expression
+  - DETERSeq: source code has bugs
