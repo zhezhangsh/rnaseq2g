@@ -24,4 +24,5 @@ Dependence of run time on sample size
   - DETERSeq: source code has bugs
   - RBM: essential the same as limma
   - DEGseq: over-sensitive 
+  - edgeRun: over-sensitive, too slow
   
