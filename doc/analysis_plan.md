@@ -25,4 +25,6 @@ Dependence of run time on sample size
   - RBM: essential the same as limma
   - DEGseq: over-sensitive 
   - edgeRun: over-sensitive, too slow
+  - GPseq: over-sensitive, too slow, and lack of documentation
+  
   
