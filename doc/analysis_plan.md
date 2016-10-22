@@ -23,4 +23,5 @@ Dependence of run time on sample size
   - derfinder: use DESeq2 for gene-level differential expression
   - DETERSeq: source code has bugs
   - RBM: essential the same as limma
+  - DEGseq: over-sensitive 
   
