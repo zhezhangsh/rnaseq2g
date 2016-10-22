@@ -114,16 +114,16 @@ tabPanel(
   wellPanel(fluidRow(
     column(12, htmlOutput("analysis.run.message")),
     div(style="display: inline-block;", HTML("&nbsp&nbsp&nbsp")),
-    div(style="display: inline-block;", actionButton("analysis.run", 'Submit DE analysis', width='200px', icon("paper-plane"), style=button.style)),
+    div(style="display: inline-block;", actionButton("analysis.run", 'Submit DE analysis', width='240px', icon("paper-plane"), style=button.style)),
     div(style="display: inline-block;", HTML("&nbsp&nbsp&nbsp")),
-    div(style="display: inline-block;", htmlOutput("analysis.id.message"))
-    # hr(),
-    # column(
-    #   12,
-    #   div(style="display: inline-block;", textInput('analysis.send.email', label=NULL, width='200px')),
-    #   div(style="display: inline-block;", HTML("&nbsp&nbsp&nbsp")),
-    #   div(style="display: inline-block;", 
-    #       HTML("<font size='3'>Send a notice to this email address after the analysis is done (optional).</font>"))
-    # )
+    div(style="display: inline-block;", htmlOutput("analysis.id.message")),
+    hr(),
+    column(
+      12,
+      div(style="display: inline-block;", textInput('analysis.send.email', label=NULL, width='240px')),
+      div(style="display: inline-block;", HTML("&nbsp&nbsp&nbsp")),
+      div(style="display: inline-block;",
+          HTML("<font size='3'>Send a notice to this email address after the analysis is done (optional).</font>"))
+    )
   ))
 )
