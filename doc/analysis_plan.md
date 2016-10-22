@@ -22,3 +22,5 @@ Dependence of run time on sample size
   - Cuffdiff: under-perform according to previous studies
   - derfinder: use DESeq2 for gene-level differential expression
   - DETERSeq: source code has bugs
+  - RBM: essential the same as limma
+  
