@@ -26,5 +26,6 @@ Dependence of run time on sample size
   - DEGseq: over-sensitive 
   - edgeRun: over-sensitive, too slow
   - GPseq: over-sensitive, too slow, and lack of documentation
+  - ShrinkSeq: extremely slow
   
   
