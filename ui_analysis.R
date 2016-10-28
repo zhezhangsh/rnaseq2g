@@ -112,6 +112,7 @@ tabPanel(
   #########################################################################
   p(),
   wellPanel(fluidRow(
+    column(12, htmlOutput("analysis.submitting.message")),
     column(12, htmlOutput("analysis.run.message")),
     div(style="display: inline-block;", HTML("&nbsp&nbsp&nbsp")),
     div(style="display: inline-block;", actionButton("analysis.run", 'Submit DE analysis', width='240px', icon("paper-plane"), style=button.style)),
