@@ -1,0 +1,10 @@
+TODO:
+  
+### Catch Errors
+
+  - Data input
+  - Load results
+  
+### Plot
+
+  - Phred vs. mean
