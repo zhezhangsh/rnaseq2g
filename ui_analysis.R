@@ -102,7 +102,7 @@ tabPanel(
     wellPanel(
       checkboxGroupInput('analysis.step3.selection', label = "Select DE methods", choices = DeRNAseqMs[[1]], selected = NULL, inline = TRUE),
       hr(),
-      radioButtons('analysis.step3.group', 'Or pick a method group:', method.group, selected = NULL, inline = TRUE, width = '90%')
+      radioButtons('analysis.step3.group', 'Or pick a method group:', method.group, inline = TRUE, width = '90%')
     ),
     
     uiOutput('analysis.step3.panel1'),

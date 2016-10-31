@@ -1,5 +1,8 @@
 TODO:
-  
+
+### Meta-analysis panel
+
+
 ### Catch Errors
 
   - Data input
@@ -8,3 +11,14 @@ TODO:
 ### Plot
 
   - Phred vs. mean
+  
+### UI
+
+  - Prompt text in textInput to grey color
+  - Progress % during submission
+  - Align method selection check boxes
+  
+### DE methods
+
+  - 3 failed methods in 00/ex1
+  - error message

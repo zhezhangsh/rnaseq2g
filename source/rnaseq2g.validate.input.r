@@ -58,6 +58,8 @@ rnaseq2g.validate.input <- function(input, output, session, session.data) {
       renderUI(HTML('Congratulations! Your analysis has been successfully submitted.', 
                     'Please go to the <font color="blue"> [Result] </font> page to retrieve results'));
 
+    setProgress(value=0.3)
+    
     input$filtered       <- mtrx;
     input$normalized     <- rnaseq2g.normalize.data(mtrx, norm); 
     input$methods        <- mthd;
@@ -76,6 +78,7 @@ rnaseq2g.normalize.data <- function(mtrx, norm) {
   norm2 <- paste('Norm', norm[2], sep='');
   
   d1 <- NormWrapper(mtrx, norm1);
+  setProgress(value=0.5);
   if (norm2 %in% c('NormVST', 'NormRlog')) d2 <- NormWrapper(mtrx, norm2) else {
     d2 <- mtrx;
     d2[d2==0] <- 1/3;

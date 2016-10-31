@@ -170,19 +170,23 @@ server_analysis <- function(input, output, session, session.data) {
       
       withProgress(
         message = 'Submitting analysis ...', {
-        inp <- rnaseq2g.validate.input(input, output, session, session.data); 
-        
-        if(!is.null(inp)) {
-          fn <- paste(session.data$dir, 'inputs.rds', sep='/'); 
-          saveRDS(inp, fn); 
-          writeLines(c(session.data$id, input$analysis.send.email), paste(session.data$dir, 'email.txt', sep='/'));
+          setProgress(value=0.05);
+          inp <- rnaseq2g.validate.input(input, output, session, session.data); 
+          setProgress(value=0.75);
           
-          ################################################################################################
-          # Submit analysis
-          rnaseq2g.run.analysis(session.data$dir)
-          session.data$run <- 1;
-          ################################################################################################
-        }
+          if(!is.null(inp)) {
+            fn <- paste(session.data$dir, 'inputs.rds', sep='/'); 
+            saveRDS(inp, fn); 
+            setProgress(value=0.90);
+            writeLines(c(session.data$id, input$analysis.send.email), paste(session.data$dir, 'email.txt', sep='/'));
+            
+            ################################################################################################
+            # Submit analysis
+            setProgress(value=0.95);
+            rnaseq2g.run.analysis(session.data$dir)
+            session.data$run <- 1;
+            ################################################################################################
+          }
       })
     } else {
       output$analysis.run.message <- renderUI(h5(HTML('<font color="red";>Analysis already submitted; refressh your browser to start a new analysis session.</font>')));

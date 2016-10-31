@@ -33,7 +33,7 @@ server_compare <- function(input, output, session, session.data) {
       }
       tbl <- data.frame(Gene = rownames(tbl), tbl, stringsAsFactors = FALSE);
     } 
-  }, , options = dt.options3, rownames=FALSE, selection = 'none', class = 'cell-border stripe');
+  }, options = dt.options3, rownames=FALSE, selection = 'none', class = 'cell-border stripe');
   
   output$compare.plot.pv <- renderPlot({ 
     rnaseq2g.plot.pvalue(session.data$result, input$compare.select.table1, input$compare.select.table2, 

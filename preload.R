@@ -1,6 +1,7 @@
 # Pre-load packages and data when this App is started
 .libPaths("/home/zhangz/R/x86_64-pc-linux-gnu-library/3.3");
-APP_HOME <- "/srv/shiny-server/rnaseq_2g"; 
+#APP_HOME <- "/srv/shiny-server/rnaseq_2g_dev"; 
+#APP_HOME <- "/srv/shiny-server/rnaseq_2g"; 
 
 require(XML);
 require(readxl);
@@ -25,6 +26,7 @@ DeRNAseqMs    <- DeMethodMeta;
 method.group  <- c('None', 'Default', 'Fast', 'Fast + Medium', 'Fast + Mediumn + Slow', 'All');
 norm.count    <- as.character(as.list(args(DeRNAseq))$norm.count)[-1];
 norm.logged   <- as.character(as.list(args(DeRNAseq))$norm.logged)[-1];
+meta.method   <- list(Simes='simes', Average='average', Bonferroni='bonferroni', Max='max', Min='min');
 
 plot.type     <- list('Pvalue'=1, 'FDR'=2, 'Volcano'=3, 'M-A'=4);
 button.style  <- "font-family: Courier New; color: #fff; background-color: tomato; border-color: black";
