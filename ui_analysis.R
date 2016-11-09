@@ -45,9 +45,9 @@ tabPanel(
     p(HTML(" - Normalization will only applied to methods without their own internal normalization.")),         
     
     wellPanel(fluidRow(
+      h4(HTML('&nbsp&nbsp&nbspUpload a file or type in the group and sample names:')),
       column(
         4, 
-        h4(HTML('Name the groups and samples or load a file:')),
         div(style="display: inline-block;", HTML(" - Accept ")),
         div(style="display: inline-block;", downloadLink('analysis.step2.txt', '.txt, ')),
         div(style="display: inline-block;", downloadLink('analysis.step2.csv', 'csv, ')),
@@ -58,35 +58,48 @@ tabPanel(
         div(style="display: inline-block;", downloadLink('analysis.step2.xlsx', '.xlsx ')),
         div(style="display: inline-block;", HTML('file.')), 
         p(),
-        fileInput(inputId = 'analysis.step2.group', label = NULL)
+        fileInput(inputId = 'analysis.step2.group', label = NULL),
+        htmlOutput('analysis.step2.error')
       ),
       column(
         8, 
         fluidRow(
-          column(3, textInput(inputId = 'analysis.step2.groupA',  label='Control group', value = 'Control', width = '80%')),
-          column(9, textInput(inputId = 'analysis.step2.sampleA', label='Control samples', value = '', width = '90%'))
+          div(style="display: inline-block;", HTML("&nbsp&nbsp&nbsp")),
+          div(style="display: inline-block; width: 25%",
+              textInput(inputId = 'analysis.step2.groupA', label = 'Control group name', value='Control')),
+          div(style="display: inline-block;", HTML("&nbsp&nbsp&nbsp")),
+          div(style="display: inline-block; width: 66%", 
+              textInput(inputId = 'analysis.step2.sampleA', label = 'Control samples', value=''))
         ),
         fluidRow(
-          column(3, textInput(inputId = 'analysis.step2.groupB',  label='Case group', value = 'Case', width = '80%')),
-          column(9, textInput(inputId = 'analysis.step2.sampleB', label='Control samples', value = '', width = '90%'))
+          div(style="display: inline-block;", HTML("&nbsp&nbsp&nbsp")),
+          div(style="display: inline-block; width: 25%",
+              textInput(inputId = 'analysis.step2.groupB', label = 'Case group name', value='Case')),
+          div(style="display: inline-block;", HTML("&nbsp&nbsp&nbsp")),
+          div(style="display: inline-block; width: 66%",
+              textInput(inputId = 'analysis.step2.sampleB', label = 'Case samples', value=''))
         )
       )
     )),
     p(),
-    
     fluidRow(
-      column(
-        6, 
-        fluidRow(
-          column(6, radioButtons('analysis.step2.paired', label = 'Paired test', choices = c('Unpaired', 'Paired'), inline = TRUE)),
-          column(6, selectizeInput('analysis.step2.norm1', label = 'Normalize count', choices = norm.count, width = '80%'))
-        ),
-        fluidRow(
-          column(6, radioButtons('analysis.step2.missing', label = 'Missing value', choices = c('Remove gene', 'Replace with 0'), inline = TRUE)),
-          column(6, selectizeInput('analysis.step2.norm2', label = 'Normalize logged', choices = norm.logged, width = '80%'))
-        )
-      ),
-      column(6, br(), sliderInput('analysis.step2.filter', label = 'Minimal read count', 0, 60, 6, 1, width = '90%'))
+      div(style="display: inline-block; width:30px", HTML("")),
+      div(style="display: inline-block; width: 200px", 
+          radioButtons('analysis.step2.paired', label = 'Paired test', choices = c('Unpaired', 'Paired'), inline = TRUE)),
+      div(style="display: inline-block; width:10px", HTML("")),
+      div(style="display: inline-block; width: 240px", 
+          radioButtons('analysis.step2.missing', label = 'Missing value', choices = c('Remove gene', 'Replace with 0'), inline = TRUE)),
+      
+      div(style="display: inline-block; width:20px", HTML("")),
+      div(style="display: inline-block; width: 160px", 
+          selectizeInput('analysis.step2.norm1', label = 'Normalize count', choices = norm.count)),
+      div(style="display: inline-block; width:10px", HTML("")),
+      div(style="display: inline-block; width: 160px", 
+          selectizeInput('analysis.step2.norm2', label = 'Normalize logged', choices = norm.logged))
+    ),
+    fluidRow(
+      div(style="display: inline-block; width:30px", HTML("")),
+      div(style="display: inline-block; align: center; width: 800px", sliderInput('analysis.step2.filter', label = 'Minimal read count', 0, 120, 6, 1))
     )
   ), # End of step2 panel
   

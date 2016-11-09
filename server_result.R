@@ -2,6 +2,7 @@ server_result <- function(input, output, session, session.data) {
   
   ###################################################################################################
   ######################################## "Result" tab #############################################  
+  # Load results option 1
   observeEvent(input$result.current.load, {
     loaded <- rnaseq2g.retrieve.result(session.data$dir); 
     session.data$result <- loaded$result;
@@ -10,6 +11,7 @@ server_result <- function(input, output, session, session.data) {
     rnaseq2g.update.selector(session, session.data); 
   });
   
+  # Load results option 2
   observeEvent(input$result.previous.load, {
     id <- input$result.previous.id; 
     loaded <- rnaseq2g.retrieve.result(paste(APP_HOME, 'log', id, sep='/'));  
@@ -19,7 +21,7 @@ server_result <- function(input, output, session, session.data) {
     rnaseq2g.update.selector(session, session.data); 
   });
   
-  # Upload previous results from local file
+  # Load results option 3
   observeEvent(input$result.previous.upload, {
     if (is.null(input$result.previous.upload)) {
       msg <- '<font color="red";>No file uploaded.</font>';
@@ -28,17 +30,32 @@ server_result <- function(input, output, session, session.data) {
       if (file.exists(uploaded$datapath)) {
         fn.res  <- paste(session.data$dir, uploaded$name, sep='/');
         file.copy(uploaded$datapath, fn.res); 
+
+        res <- tryCatch(
+          ImportR(fn.res), 
+          error = function(e) {
+            output$result.load.error <- renderUI(h5(HTML(paste('<font color="darkblue";>', e$message, '</font>', sep=''))));
+            NA;
+          },
+          warning = function(w) {
+            output$result.load.error <- renderUI(h5(HTML(paste('<font color="darkblue";>', w$message, '</font>', sep=''))));
+            NA;
+          }
+        ); 
         
-        res <- ImportR(fn.res); 
-        if (identical(NA, res)) msg <- paste('<font color="red";>Fail to upload file:</font>', uploaded$name) else {
+        if (identical(NA, res)) {
+          msg <- paste('<font color="red";>Fail to upload file:</font>', uploaded$name);
+        } else {
           msg <- rnaseq2g.validate.result(res); # validate uploaded file
           if (identical(NA, msg)) {
             session.data$result <- res; 
             msg <- c('<p><font color="blue";>Results successfully loaded from local file: </font></p>', 
                      rnaseq2g.summarize.result(res$input, 'user') );
             rnaseq2g.update.selector(session, session.data);
-          } else msg <- c('<p><font color="red">File not recognized; read [<b>Manual</b>] for detail:</font></p>', 
-                          paste('<p>&nbsp&nbsp', msg, '</p>', sep=''));
+          } else {
+            msg <- c('<p><font color="red">File not recognized; read [<b>Manual</b>] for detail:</font></p>', 
+                     paste('<p>&nbsp&nbsp', msg, '</p>', sep=''));
+          }
         }
       } else {
         msg <- paste('<font color="red";>File to upload not found:</font>', uploaded$name);

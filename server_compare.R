@@ -65,7 +65,7 @@ server_compare <- function(input, output, session, session.data) {
   }, options = dt.options4, rownames=FALSE, selection = 'none', class = 'cell-border stripe');
   
   # Single gene barplot
-  output$compare.single.plot <- renderPlot({
+  output$compare.single.plot <- renderPlotly({
     rnaseq2g.plot.single(session.data$result, input$compare.single.id, input$compare.single.type);
   });
   

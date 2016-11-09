@@ -1,12 +1,10 @@
-print("starting server");
+options(shiny.maxRequestSize=64000000); 
 
 source('server_analysis.R', local=TRUE);
 source('server_result.R',   local=TRUE);
 source('server_compare.R',  local=TRUE);
 source('server_metaanalysis.R', local=TRUE);
 source('server_manual.R',  local=TRUE);
-
-options(shiny.maxRequestSize=64000000); 
 
 # debugging code
 # loaded <- rnaseq2g.retrieve.result('log/00/ex');

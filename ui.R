@@ -1,13 +1,13 @@
 ##########################
 ####### RNAseq-2G ########
 ##########################
-#source("/srv/shiny-server/rnaseq_2g_dev/preload.R");
-source("/srv/shiny-server/rnaseq_2g/preload.R");
+source("/srv/shiny-server/rnaseq_2g_dev/preload.R");
+#source("/srv/shiny-server/rnaseq_2g/preload.R");
 
 shinyUI(
   
   navbarPage(
-    title        = HTML("<b><u><i>RNA-seq 2G</i></u></b>&nbsp&nbsp", "<font color='#F0F0F0' size=1><b><i>A web portal of 2-group DE analysis</i></b></font>"),
+    title        = HTML("<b><u><i>RNA-seq 2G</i></u></b>&nbsp&nbsp", "<font color='#F0F0F0' size=1><b><i>Web portal of 2-group DE analysis</i></b></font>"),
     windowTitle  = "RNA-seq 2G", 
     id           = "main_menu",
     theme        = shinytheme("united"),

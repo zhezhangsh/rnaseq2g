@@ -18,8 +18,14 @@ tabPanel(
         div(style="display: inline-block;", radioButtons('meta.select.group', '', list('Select none'=1, 'Select all'=2, 'Select random'=3), inline = TRUE))
       ),
       column(12, wellPanel(checkboxGroupInput('meta.select.box', label = "", choices = list(), inline = TRUE))),
-      column(12, selectizeInput('meta.select.method', label = 'Select meta-analysis method', width='240px',
-                                choices = list(Simes='simes', Fisher='fisher', Average='average', Bonferroni='bonferroni', Max='max', Min='min'))),
+      column(
+        12, 
+        div(style="display: inline-block;", 
+            selectizeInput('meta.select.method', label = 'Select meta-analysis method', width='240px', 
+                           choices = list(Simes='simes', Fisher='fisher', Average='average', Bonferroni='bonferroni', Max='max', Min='min'))),
+        div(style="display: inline-block;", HTML("&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp")),
+        div(style="display: inline-block;", checkboxInput('meta.normalize.p', label='Normalize p values first', value=TRUE))
+      ),
       column(
         12,
         div(style="display: inline-block;", actionButton("meta.run", 'Run ', icon("paper-plane"), style=button.style, width='108px')),
@@ -71,7 +77,7 @@ tabPanel(
       column(7, DT::dataTableOutput('meta.single.table', width='100%')),
       column(
         5,
-        plotOutput('meta.single.plot', width = '100%', height = '480px'),
+        plotlyOutput('meta.single.plot', width = '100%', height = '480px'),
         h6(HTML("&nbsp;")),
         fluidRow(
           column(

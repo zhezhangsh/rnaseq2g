@@ -24,7 +24,7 @@ server_metaanalysis <- function(input, output, session, session.data) {
           rs <- session.data$result; saveRDS(rs, 'rs.rds'); 
           pv <- sapply(rs[[2]][nm], function(x) x[, 5]); 
           setProgress(value=0.15);
-          pc <- CombinePvalue(pv, input$meta.select.method);
+          pc <- CombinePvalue(pv, input$meta.select.method, normalize = input$meta.normalize.p);
           setProgress(value=0.75);
           m1 <- rowMeans(rs$input$normalized$count[, rs$input$groups[[1]], drop=FALSE]);
           m2 <- rowMeans(rs$input$normalized$count[, rs$input$groups[[2]], drop=FALSE]);
@@ -111,7 +111,7 @@ server_metaanalysis <- function(input, output, session, session.data) {
   }, options = dt.options4, rownames=FALSE, selection = 'none', class = 'cell-border stripe');
   
   # Single gene barplot
-  output$meta.single.plot <- renderPlot({
+  output$meta.single.plot <- renderPlotly({
     rnaseq2g.plot.single(session.data$result, input$meta.single.id, input$meta.single.type);
   });
   

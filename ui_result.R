@@ -4,15 +4,15 @@ tabPanel(
   h1(HTML('<font color="tomato" face="Comic Sans MS"><center><b>Browse results</b></center></font>')),
   wellPanel(
     fluidRow(
-      
       h3(HTML("&nbsp&nbsp&nbspLoad results")),
-      column(6, wellPanel(style='height: 360px',
-        fluidRow(
+      column(6, wellPanel(
+        style='height: 360px',
+        fluidRow( # Load results, option 1
           style='padding:15px;', 
           h5(HTML("<b>Option 1: Current online analysis</b>")),
           actionButton("result.current.load", 'Check status', icon("refresh"), width='150px', style=button.style)
         ),
-        fluidRow(
+        fluidRow( # Load results, option 2
           style='padding:15px;', 
           div(
             style="display: inline-block;", 
@@ -20,7 +20,9 @@ tabPanel(
           div(
             style="display: inline-block;", 
             actionButton("result.previous.load", 'Load', icon("server"), width='85px', style=button.style))),
-        fluidRow(style='padding:15px', fileInput(inputId = "result.previous.upload", label = "Option 3: Upload results of an offline analysis", width='90%'))
+        fluidRow( # Load results, option 3
+          style='padding:15px', 
+          fileInput(inputId = "result.previous.upload", label = "Option 3: Upload results of an offline analysis", width='90%'))
       )),
       column(6, wellPanel(style='height: 360px',
         h5(HTML("<br><b>Loaded results:</b>")),

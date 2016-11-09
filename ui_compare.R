@@ -55,7 +55,7 @@ tabPanel(
       column(7, DT::dataTableOutput('compare.single.table', width='100%')),
       column(
         5,
-        plotOutput('compare.single.plot', width = '100%', height = '480px'),
+        plotlyOutput('compare.single.plot', width = '100%', height = '480px'),
         h6(HTML("&nbsp;")),
         fluidRow(
           column(

@@ -13,8 +13,17 @@ server_analysis <- function(input, output, session, session.data) {
       if (file.exists(uploaded$datapath)) {
         fn.mtrx  <- paste(session.data$dir, uploaded$name, sep='/');
         file.copy(uploaded$datapath, fn.mtrx); 
-        session.data$matrix <- as.matrix(ImportTable(fn.mtrx)); 
-      } else session.data <- NULL
+        session.data$matrix <- tryCatch({
+          tbl <- as.matrix(ImportTable(fn.mtrx));
+          # Table dimension
+          output$analysis.step1.size <- renderUI(list(h4(HTML(paste(
+            '<font color="darkgreen">The loaded matrix includes', nrow(tbl), 'rows (genes) and', ncol(tbl), 'columns (samples).</font>')))));
+          tbl;
+        }, error = function(e) {
+          output$analysis.step1.size <- renderUI(list(h5(HTML('<font color="red";>Loading data failed:', e$message, '</font>'))));
+          NULL;
+        });
+      } else session.data$matrix <- NULL
     }
     
     # Table header
@@ -24,13 +33,6 @@ server_analysis <- function(input, output, session, session.data) {
         data.frame(Gene=rownames(tbl), tbl, stringsAsFactors = FALSE);
       }
     }, options = dt.options1, rownames=FALSE, selection = 'none', class = 'cell-border stripe');
-    
-    # Table dimension
-    output$analysis.step1.size <- renderUI({
-      if (is.null(session.data$matrix)) '' else 
-        list(h4(HTML(paste('<font color="darkgreen">The loaded matrix includes', nrow(session.data$matrix), 
-                           'rows (genes) and', ncol(session.data$matrix), 'columns (samples).</font>'))))
-    });
   });
   
   # Download sample data
@@ -81,11 +83,21 @@ server_analysis <- function(input, output, session, session.data) {
       if (file.exists(uploaded$datapath)) {
         fn.grps  <- paste(session.data$dir, uploaded$name, sep='/');
         file.copy(uploaded$datapath, fn.grps);
-        grps <- ImportList(fn.grps); 
-        updateTextInput(session, 'analysis.step2.groupA', label='', value=names(grps)[1]); 
-        updateTextInput(session, 'analysis.step2.groupB', label='', value=names(grps)[2]);
-        updateTextInput(session, 'analysis.step2.sampleA', label='', value=paste(grps[[1]], collapse=';'));
-        updateTextInput(session, 'analysis.step2.sampleB', label='', value=paste(grps[[2]], collapse=';'));
+        tryCatch({
+          gp <-rnaseq2g.load.group(fn.grps); 
+          updateTextInput(session, 'analysis.step2.groupA', label='Control group name', value=gp[[1]][1]); 
+          updateTextInput(session, 'analysis.step2.groupB', label='Case group name', value=gp[[1]][2]);
+          updateTextInput(session, 'analysis.step2.sampleA', label='Control samples', value=paste(gp[[2]][[1]], collapse=';'));
+          updateTextInput(session, 'analysis.step2.sampleB', label='Case samples', value=paste(gp[[2]][[2]], collapse=';'));
+          output$analysis.step2.error <- renderUI(list(h5(HTML('<font color="darkblue";>Groups loaded</font>'))));
+        }, error = function(e) {
+          updateTextInput(session, 'analysis.step2.groupA', label='Control group name', value=''); 
+          updateTextInput(session, 'analysis.step2.groupB', label='Case group name', value='');
+          updateTextInput(session, 'analysis.step2.sampleA', label='Control samples', value='');
+          updateTextInput(session, 'analysis.step2.sampleB', label='Case samples', value='');
+          output$analysis.step2.error <- renderUI(list(h5(HTML('<font color="red";>Loading failed: ', e$message, '</font>'))));
+          NULL;
+        });
       } else NULL
     }
   });
