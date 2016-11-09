@@ -1,24 +1,25 @@
 TODO:
 
-### Meta-analysis panel
+### <s>Meta-analysis panel</s>
 
 
 ### Catch Errors
 
-  - <strike>Data input</strike>
+  - <s>Data input</s>
   - <s>Load results</s>
   
 ### Plot
 
   - Phred vs. mean
+  - switch to plotly
   
 ### UI
 
   - Prompt text in textInput to grey color
-  - Progress % during submission
+  - <s>Progress % during submission</s>
   - Align method selection check boxes
   
 ### DE methods
 
-  - 3 failed methods in 00/ex1
+  - <s>3 failed methods in 00/ex1</s>
   - error message
