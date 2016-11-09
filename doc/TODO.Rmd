@@ -5,7 +5,7 @@ TODO:
 
 ### Catch Errors
 
-  - Data input
+  - <strike>Data input</strike>
   - Load results
   
 ### Plot
