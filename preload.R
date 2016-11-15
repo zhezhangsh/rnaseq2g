@@ -1,7 +1,7 @@
 # Pre-load packages and data when this App is started
 .libPaths("/home/zhangz/R/x86_64-pc-linux-gnu-library/3.3");
-APP_HOME <- "/srv/shiny-server/rnaseq_2g_dev"; 
-#APP_HOME <- "/srv/shiny-server/rnaseq_2g"; 
+#APP_HOME <- "/srv/shiny-server/rnaseq_2g_dev"; 
+APP_HOME <- "/srv/shiny-server/rnaseq_2g";
 
 require(XML);
 require(readxl);

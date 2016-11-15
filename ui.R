@@ -1,8 +1,8 @@
 ##########################
 ####### RNAseq-2G ########
 ##########################
-source("/srv/shiny-server/rnaseq_2g_dev/preload.R");
-#source("/srv/shiny-server/rnaseq_2g/preload.R");
+#source("/srv/shiny-server/rnaseq_2g_dev/preload.R");
+source("/srv/shiny-server/rnaseq_2g/preload.R");
 
 shinyUI(
   
