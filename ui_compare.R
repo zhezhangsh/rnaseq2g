@@ -18,7 +18,7 @@ tabPanel(
           column(6, selectInput("compare.select.table1", label = "Select method", choices = list(), width = '75%')),
           column(6, selectInput('compare.select.plot1', 'Select plot', plot.type, selected = 1, width = '75%'))
         )),
-        plotOutput('compare.show.plot1', width = '100%', height = '480px')
+        plotlyOutput('compare.show.plot1', width = '100%', height = '480px')
       ),
       column(
         6, 
@@ -26,7 +26,7 @@ tabPanel(
           column(6, selectInput("compare.select.table2", label = "Select method", choices = list(), width = '75%')),
           column(6, selectInput('compare.select.plot2', 'Select plot', plot.type, selected = 1, width = '75%'))
         )),
-        plotOutput('compare.show.plot2', width = '100%', height = '480px')
+        plotlyOutput('compare.show.plot2', width = '100%', height = '480px')
       )
     ))),
   # Compare rankings of two methods
@@ -41,7 +41,9 @@ tabPanel(
         div(style="display:inline-block;", HTML("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")), 
         div(style="display:inline-block;", selectInput('compare.pv.type', 'Select plot', list('Quantile-quantile'='1', 'P value ranking'='2', 'Venn diagram'='3'), width='160px'))
       ),
-      plotOutput('compare.plot.pv', width = '100%', height = '480px')
+      ##################################################################
+      plotlyOutput('compare.plot.pv', width = '100%', height = '480px')
+      ##################################################################
     )
   ))),
   # Single gene details

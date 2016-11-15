@@ -59,7 +59,7 @@ tabPanel(
       )),
       hr(),
       fluidRow(
-        column(5, plotOutput('meta.plot.pv', width = '100%', height = '560px')),
+        column(5, plotlyOutput('meta.plot.pv', width = '100%', height = '560px')),
         column(7, DT::dataTableOutput('meta.table.pv', width='100%'))
       )
     )
@@ -82,8 +82,9 @@ tabPanel(
         fluidRow(
           column(
             12, align='center', 
-            radioButtons('meta.single.type', NULL, list('Original count'='1', 'Normalized count'='2', 'Log2-transformed'='3'), selected = '2', inline = TRUE))
+            radioButtons('meta.single.type', NULL, list('Original count'='1', 'Normalized count'='2', 'Log2-transformed'='3'), selected = '2', inline = TRUE)
           )
+        )
       )
     )
   )))

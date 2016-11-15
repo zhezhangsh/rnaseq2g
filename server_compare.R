@@ -3,12 +3,20 @@ server_compare <- function(input, output, session, session.data) {
   #######################################################################################################
   ######################################## "Comparison" tab #############################################
   # Plot1
-  output$compare.show.plot1 <- renderPlot({
-    rnaseq2g.plot.global(session.data$result, input$compare.select.table1, input$compare.select.plot1);
+  output$compare.show.plot1 <- renderPlotly({
+    withProgress(
+      message = 'Drawing plot ...', {
+        rnaseq2g.plot.global(session.data$result, input$compare.select.table1, input$compare.select.plot1);
+      }
+    )
   });
   # Plot2
-  output$compare.show.plot2 <- renderPlot({
-    rnaseq2g.plot.global(session.data$result, input$compare.select.table2, input$compare.select.plot2);
+  output$compare.show.plot2 <- renderPlotly({
+    withProgress(
+      message = 'Drawing plot ...', {
+        rnaseq2g.plot.global(session.data$result, input$compare.select.table2, input$compare.select.plot2);
+      }
+    )
   });
   
   # Concordant change of plot type
@@ -35,7 +43,8 @@ server_compare <- function(input, output, session, session.data) {
     } 
   }, options = dt.options3, rownames=FALSE, selection = 'none', class = 'cell-border stripe');
   
-  output$compare.plot.pv <- renderPlot({ 
+  # Plot p values
+  output$compare.plot.pv <- renderPlotly({ 
     rnaseq2g.plot.pvalue(session.data$result, input$compare.select.table1, input$compare.select.table2, 
                          input$compare.pv.type, input$compare.top.gene, DeRNAseqMs);
   });

@@ -74,7 +74,7 @@ tabPanel(
               downloadButton('result.download.plot', label = '', class = 'dB1')
           ), 
           p(),
-          column(12, plotOutput('result.show.plot', width = '100%', height = '480px'))
+          column(12, plotlyOutput('result.show.plot', width = '100%', height = '480px'))
         ))
       )
     ) # End of showing plot panel

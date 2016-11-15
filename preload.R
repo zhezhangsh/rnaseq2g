@@ -29,7 +29,7 @@ norm.count    <- as.character(as.list(args(DeRNAseq))$norm.count)[-1];
 norm.logged   <- as.character(as.list(args(DeRNAseq))$norm.logged)[-1];
 meta.method   <- list(Simes='simes', Average='average', Bonferroni='bonferroni', Max='max', Min='min');
 
-plot.type     <- list('Pvalue'=1, 'FDR'=2, 'Volcano'=3, 'M-A'=4);
+plot.type     <- list('Pvalue'=1, 'FDR'=2, 'Volcano'=3, 'M-A'=4, 'P-A'=5);
 button.style  <- "font-family: Courier New; color: #fff; background-color: tomato; border-color: black";
 
 choices.pv    <- list('1' = 1, '0.5' = 0.5, '0.25' = 0.25, '0.10' = 0.1, '0.05' = 0.05, '0.01' = 0.01, '0.001' = 0.001); 

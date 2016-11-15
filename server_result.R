@@ -134,7 +134,7 @@ server_result <- function(input, output, session, session.data) {
   ); # END of download all results
   
   # Plots
-  output$result.show.plot <- renderPlot({
+  output$result.show.plot <- renderPlotly({
     rnaseq2g.plot.global(session.data$result, input$result.select.table, input$result.select.plot);
   });
   
@@ -150,8 +150,13 @@ server_result <- function(input, output, session, session.data) {
         if (!is.null(typ) & typ=='png') png(file, width=4.8, height=6, unit='in', res=300) else
           if (!is.null(typ) & typ=='jpeg') jpeg(file, width=4.8, height=6, unit='in', res=300) else
             if (!is.null(typ) & typ=='tiff') tiff(file, width=4.8, height=6, unit='in', res=300);
-      rnaseq2g.plot.global(session.data$result, input$result.select.table, input$result.select.plot);
-      dev.off();
+      
+      withProgress(
+        message = 'Drawing plot ...', {
+          rnaseq2g.plot.global(session.data$result, input$result.select.table, input$result.select.plot);
+          dev.off();
+        }
+      )
     }
   );
   

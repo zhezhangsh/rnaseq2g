@@ -13,30 +13,36 @@ server_metaanalysis <- function(input, output, session, session.data) {
   
   # Run meta-analysis
   observeEvent(input$meta.run, { 
-    ms <- input$meta.select.box;
-    nm <- sapply(ms, function(x) rownames(DeRNAseqMs)[DeRNAseqMs[, 1]==x]);
-    if (length(nm) < 2) {      
+    ms <- input$meta.select.box; 
+    nm <- rownames(DeRNAseqMs)[DeRNAseqMs[, 1] %in% ms]; 
+    if (length(ms) < 2) {      
       output$meta.run.message <- renderUI(h5(HTML('<font color="red";>Require 2 or more DE methods to run meta-analysis.</font>')));
     } else {
       withProgress(
         message = 'Running meta-analysis ...', {
-          setProgress(value=0.1);
-          rs <- session.data$result; saveRDS(rs, 'rs.rds'); 
-          pv <- sapply(rs[[2]][nm], function(x) x[, 5]); 
-          setProgress(value=0.15);
-          pc <- CombinePvalue(pv, input$meta.select.method, normalize = input$meta.normalize.p);
-          setProgress(value=0.75);
-          m1 <- rowMeans(rs$input$normalized$count[, rs$input$groups[[1]], drop=FALSE]);
-          m2 <- rowMeans(rs$input$normalized$count[, rs$input$groups[[2]], drop=FALSE]);
-          l2 <- log2(pmax(m2, min(m2[m2>0])/2)) - log2(pmax(m1, min(m1[m1>0])/2)); 
-          tb <- cbind(LogFC = l2, Rank_Combined = rank(pc), Pvalue_Combined = pc, pv); 
-          tb <- FormatNumeric(tb); 
-          colnames(tb)[4:ncol(tb)] <- ms;
-          setProgress(value=0.9);
-          updateSelectInput(session, "meta.compare.method", label = 'Select method', choices = as.list(ms));
-          session.data$meta <- tb;
-          
-          output$meta.run.message <- renderUI(h5(HTML('Analysis is done. Please see results below.')));
+          session.data$meta <- tryCatch({
+            setProgress(value=0.1);
+            rs <- session.data$result;
+            pv <- sapply(rs[[2]][nm], function(x) x[, 5]); 
+            setProgress(value=0.15);
+            pc <- CombinePvalue(pv, input$meta.select.method, normalize = input$meta.normalize.p);
+            setProgress(value=0.75); 
+            m1 <- rowMeans(rs$input$normalized$count[, rs$input$groups[[1]], drop=FALSE]);
+            m2 <- rowMeans(rs$input$normalized$count[, rs$input$groups[[2]], drop=FALSE]);
+            l2 <- log2(pmax(m2, min(m2[m2>0])/2)) - log2(pmax(m1, min(m1[m1>0])/2)); 
+            tb <- cbind(LogFC = l2, Rank_Combined = rank(pc), Pvalue_Combined = pc, pv); 
+            tb <- FormatNumeric(tb);
+            colnames(tb)[4:ncol(tb)] <- ms;
+            setProgress(value=0.9);
+            updateSelectInput(session, "meta.compare.method", label = 'Select method', choices = as.list(ms));
+
+            output$meta.run.message <- renderUI(h5(HTML('Analysis is done. Please see results below.')));
+            
+            tb;
+          }, error = function(e) {
+            output$meta.run.message <- renderUI(h5(HTML('<font color="red";>Meta-analysis failed:', e$message, '</font>')));
+            NULL;
+          });
         }
       )
     };
@@ -58,7 +64,7 @@ server_metaanalysis <- function(input, output, session, session.data) {
     }
   }, options = dt.options3, rownames=FALSE, selection = 'none', class = 'cell-border stripe');
   
-  output$meta.plot.pv <- renderPlot({
+  output$meta.plot.pv <- renderPlotly({
     rnaseq2g.plot.meta(session.data$meta, input$meta.pv.type, input$meta.compare.method, input$meta.top.gene);
   });
   
