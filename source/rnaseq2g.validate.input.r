@@ -1,9 +1,17 @@
 rnaseq2g.validate.input <- function(input, output, session, session.data) {
+  # Select DE method
+  nms  <- DeRNAseqMs[[1]]; 
+  ids  <- paste('analysis.method.', nms, sep=''); 
+  sel  <- c();
+  for (i in 1:length(ids)) sel[i] <- input[[ids[i]]]; 
+  if (length(sel[sel]) == 0) mthd <- NULL else mthd <- nms[sel]; 
+
   # Collect inputs and parameters
   mtrx <- session.data$matrix;
-  mthd <- input$analysis.step3.selection; 
-  smp1 <- strsplit(input$analysis.step2.sampleA, '[\t ;,]')[[1]];
-  smp2 <- strsplit(input$analysis.step2.sampleB, '[\t ;,]')[[1]];
+  
+  smp1 <- colnames(mtrx)[as.integer(input$analysis.step2.sampleA)];
+  smp2 <- colnames(mtrx)[as.integer(input$analysis.step2.sampleB)];
+
   grps <- list(smp1, smp2);
   pair <- input$analysis.step2.paired; 
   miss <- input$analysis.step2.missing;
@@ -12,7 +20,7 @@ rnaseq2g.validate.input <- function(input, output, session, session.data) {
   
   names(grps) <- c(input$analysis.step2.groupA, input$analysis.step2.groupB); 
   input <- list(original = mtrx);
-  
+
   # Run DE
   if (is.null(mtrx)) {
     msg <- 'No read count matrix loaded, please finish step 1'; 

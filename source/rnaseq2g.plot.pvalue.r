@@ -59,10 +59,15 @@ rnaseq2g.plot.pvalue <- function(res, nm1, nm2, typ, top, mth) {
           ind <- which(!(names(rk1) %in% z)); 
         } else ind <- 1:length(rk1); 
         
-        p <- PlotlySmoothScatter(log10(rk1), log10(rk2), xlab=lb[1], ylab=lb[2], xlim=c(-.2, lim), ylim=c(-.2, lim), zero.line = c(FALSE, FALSE), 
-                                 size=sz, symbol=2, txt=txt, line=list(c(-1, lim+1), c(-1, lim+1))); 
+        p <- PlotlyContourScatter(log10(rk1), log10(rk2), xlab=lb[1], ylab=lb[2], xlim=c(-.2, lim), ylim=c(-.2, lim), reversescale = FALSE, 
+                                  line = list(c(-1, lim+1), c(-1, lim+1)), size=sz, symbol=2, txt=txt, npoints=round(length(rk1)/20), col.mark = '#8888FF', 
+                                  colorscale=list(list(0, '#FFFFFF'), list(.1, '#4444FF'), list(1, '#8888FF')), marker.line=FALSE); 
+        
+        # p <- PlotlySmoothScatter(log10(rk1), log10(rk2), xlab=lb[1], ylab=lb[2], xlim=c(-.2, lim), ylim=c(-.2, lim), zero.line = c(FALSE, FALSE), 
+        #                          size=sz, symbol=2, txt=txt, line=list(c(-1, lim+1), c(-1, lim+1))); 
+        # 
         if (length(ind) < length(rk1)) {
-          names(txt) <- names(rk1); 
+          names(txt) <- names(rk1);
           p <- add_markers(p, x=log10(rk1[z]), y=log10(rk2[z]), mode='markers', text=txt[z], marker=list(color=col, size=sz[z]));
         }
 

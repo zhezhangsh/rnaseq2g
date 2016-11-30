@@ -55,10 +55,20 @@ if (!file.exists(fn)) {
     message <- paste(gsub('\n', '', msg), collapse='\n'); 
   writeLines(message, paste(args, 'message.txt', sep='/'));
   
-  # fn <- paste(args, 'email.txt', sep='/');
-  # if (file.exists(fn)) {
-  #   ln <- readLines(fn); 
-  #   if (length(ln)>=2 & ln[2]!='') rnaseq2g.send.email(ln[2], ln[1]); 
-  # }
+  fn <- paste(args, 'email.txt', sep='/'); 
+  if (file.exists(fn)) { 
+    ln <- readLines(fn);
+    msg <-  paste(
+      ln[1], ' ', 'RNA-seq 2G has finished this analysis.', 
+      'Go to http://rnaseq2g.awsomics.org, open the [Result] page,', 
+      'choose [Option 2], and copy/paste the analysis ID to load results.'
+    );
+    cmd <- paste('echo', msg, '| mail -s "[No Reply] RNA-seq 2G analysis is done."', 'rnaseq2g@outlook.com'); 
+    system(cmd); 
+    if (length(ln)>=2 & ln[2]!='') {
+      cmd <- paste('echo', msg, '| mail -s "[No Reply] RNA-seq 2G analysis is done."', ln[2]);
+      system(cmd);
+    }
+  }
 }
 

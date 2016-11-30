@@ -24,6 +24,8 @@ group_example <- list(Control=colnames(count_example)[1:3], Patient=colnames(cou
 
 data(DeMethodMeta); 
 DeRNAseqMs    <- DeMethodMeta;
+# rnaseq2g.method.checkbox(DeRNAseqMs[, 1]); 
+
 method.group  <- c('None', 'Default', 'Fast', 'Fast + Medium', 'Fast + Mediumn + Slow', 'All');
 norm.count    <- as.character(as.list(args(DeRNAseq))$norm.count)[-1];
 norm.logged   <- as.character(as.list(args(DeRNAseq))$norm.logged)[-1];
@@ -31,6 +33,7 @@ meta.method   <- list(Simes='simes', Average='average', Bonferroni='bonferroni',
 
 plot.type     <- list('Pvalue'=1, 'FDR'=2, 'Volcano'=3, 'M-A'=4, 'P-A'=5);
 button.style  <- "font-family: Courier New; color: #fff; background-color: tomato; border-color: black";
+button.style2 <- "font-family: Courier New; color: #fff; background-color: chocolate; border-color: black";
 
 choices.pv    <- list('1' = 1, '0.5' = 0.5, '0.25' = 0.25, '0.10' = 0.1, '0.05' = 0.05, '0.01' = 0.01, '0.001' = 0.001); 
 choices.fc    <- list('None' = 0, '5%' = log2(1.05), '10%' = log2(1.1), '25%' = log2(1.25), '50%' = log2(1.5), '100%' = 1,
@@ -49,13 +52,19 @@ dt.options2 <- list(
                         "}"));
 
 dt.options3 <- list(
-  scrollX = TRUE, pageLength = 12, 
+  scrollX = TRUE, pageLength = 10, 
   initComplete = DT::JS("function(settings, json) {",
                         "$(this.api().table().header()).css({'background-color': '#666', 'color': '#fff'});", 
                         "}"));
 
 dt.options4 <- list(
   dom = 't', scrollX = TRUE, pageLength = 100, 
+  initComplete = DT::JS("function(settings, json) {",
+                        "$(this.api().table().header()).css({'background-color': '#666', 'color': '#fff'});", 
+                        "}"));
+
+dt.options5 <- list(
+  scrollX = TRUE, pageLength = 12, 
   initComplete = DT::JS("function(settings, json) {",
                         "$(this.api().table().header()).css({'background-color': '#666', 'color': '#fff'});", 
                         "}"));

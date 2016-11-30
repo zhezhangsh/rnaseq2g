@@ -5,7 +5,42 @@ server_analysis <- function(input, output, session, session.data) {
   
   ###################################################################################################
   # Analysis, Step 1
-  
+  # Load an example 
+  observeEvent(input$analysis.load.example, {
+    session.data$matrix <- tryCatch({
+      tbl <- readRDS('data/count_example.rds');
+      # Table dimension
+      output$analysis.step1.size <- renderUI(list(h4(HTML(paste(
+        '<font color="darkgreen">The loaded matrix includes', nrow(tbl), 'rows (genes) and', ncol(tbl), 'columns (samples).</font>')))));
+      
+      ch <- 1:ncol(tbl); 
+      names(ch) <- colnames(tbl); 
+      ch <- as.list(ch);
+      
+      updateSelectizeInput(session, 'analysis.step2.sampleA', choices = ch, selected = 1:3); 
+      updateSelectizeInput(session, 'analysis.step2.sampleB', choices = ch, selected = 4:6); 
+      updateRadioButtons(session, 'analysis.step2.paired', selected = 'Unpaired');
+      
+      tbl;
+    }, error = function(e) {
+      output$analysis.step1.size <- renderUI(list(h5(HTML('<font color="red";>Loading data failed:', e$message, '</font>'))));
+      NULL;
+    });
+    # Table header
+    output$analysis.step1.table <- DT::renderDataTable({
+      if (is.null(session.data$matrix)) NULL else {
+        tbl <- session.data$matrix[1:min(3, nrow(session.data$matrix)), , drop=FALSE];
+        data.frame(Gene=rownames(tbl), tbl, stringsAsFactors = FALSE);
+      }
+    }, options = dt.options1, rownames=FALSE, selection = 'none', class = 'cell-border stripe');
+    
+    # select methods
+    ids <- DeRNAseqMs[DeRNAseqMs$Default=='Yes', 1];
+    for (i in 1:length(ids))
+      updateCheckboxInput(session, paste('analysis.method.', ids[i], sep=''), value=TRUE);
+    updateRadioButtons(session, 'analysis.step3.group', selected = 'Default');
+  });
+
   # Load data matrix
   observeEvent(input$analysis.step1.upload, {
     if (is.null(input$analysis.step1.upload)) session.data$matrix <- NULL else {
@@ -18,13 +53,22 @@ server_analysis <- function(input, output, session, session.data) {
           # Table dimension
           output$analysis.step1.size <- renderUI(list(h4(HTML(paste(
             '<font color="darkgreen">The loaded matrix includes', nrow(tbl), 'rows (genes) and', ncol(tbl), 'columns (samples).</font>')))));
+          
+          ch <- 1:ncol(tbl); 
+          names(ch) <- colnames(tbl); 
+          ch <- as.list(ch);
+          
+          updateSelectizeInput(session, 'analysis.step2.sampleA', choices = ch, selected = character(0)); 
+          updateSelectizeInput(session, 'analysis.step2.sampleB', choices = ch, selected = character(0)); 
+          updateRadioButtons(session, 'analysis.step2.paired', selected = 'Unpaired');
+
           tbl;
         }, error = function(e) {
           output$analysis.step1.size <- renderUI(list(h5(HTML('<font color="red";>Loading data failed:', e$message, '</font>'))));
           NULL;
         });
       } else session.data$matrix <- NULL
-    }
+    };
     
     # Table header
     output$analysis.step1.table <- DT::renderDataTable({
@@ -83,22 +127,38 @@ server_analysis <- function(input, output, session, session.data) {
       if (file.exists(uploaded$datapath)) {
         fn.grps  <- paste(session.data$dir, uploaded$name, sep='/');
         file.copy(uploaded$datapath, fn.grps);
-        tryCatch({
-          gp <-rnaseq2g.load.group(fn.grps); 
-          updateTextInput(session, 'analysis.step2.groupA', label='Control group name', value=gp[[1]][1]); 
-          updateTextInput(session, 'analysis.step2.groupB', label='Case group name', value=gp[[1]][2]);
-          updateTextInput(session, 'analysis.step2.sampleA', label='Control samples', value=paste(gp[[2]][[1]], collapse=';'));
-          updateTextInput(session, 'analysis.step2.sampleB', label='Case samples', value=paste(gp[[2]][[2]], collapse=';'));
-          output$analysis.step2.error <- renderUI(list(h5(HTML('<font color="darkblue";>Groups loaded</font>'))));
-        }, error = function(e) {
-          updateTextInput(session, 'analysis.step2.groupA', label='Control group name', value=''); 
-          updateTextInput(session, 'analysis.step2.groupB', label='Case group name', value='');
-          updateTextInput(session, 'analysis.step2.sampleA', label='Control samples', value='');
-          updateTextInput(session, 'analysis.step2.sampleB', label='Case samples', value='');
-          output$analysis.step2.error <- renderUI(list(h5(HTML('<font color="red";>Loading failed: ', e$message, '</font>'))));
-          NULL;
-        });
+        rnaseq2g.load.group(fn.grps, input, output, session, session.data); 
       } else NULL
+    }
+  });
+  
+  observeEvent(input$analysis.step2.sampleA, {
+    ct <- session.data$matrix; 
+    if (!is.null(ct)) {
+      s1 <- as.integer(input$analysis.step2.sampleA);
+      s2 <- as.integer(input$analysis.step2.sampleB);
+      
+      ch <- 1:ncol(ct); 
+      names(ch) <- colnames(ct);
+      ch <- as.list(ch); 
+      if (length(s1) > 0) s2 <- s2[!(s2 %in% s1)]; 
+
+      updateSelectizeInput(session, 'analysis.step2.sampleB', selected = ch[s2]); 
+    }
+  });
+  
+  observeEvent(input$analysis.step2.sampleB, {
+    ct <- session.data$matrix; 
+    if (!is.null(ct)) {
+      s1 <- as.integer(input$analysis.step2.sampleA);
+      s2 <- as.integer(input$analysis.step2.sampleB);
+      
+      ch <- 1:ncol(ct); 
+      names(ch) <- colnames(ct);
+      ch <- as.list(ch); 
+      if (length(s2) > 0) s1 <- s1[!(s1 %in% s2)]; 
+      
+      updateSelectizeInput(session, 'analysis.step2.sampleA', selected = ch[s1]); 
     }
   });
   
@@ -151,9 +211,11 @@ server_analysis <- function(input, output, session, session.data) {
   observeEvent(input$analysis.step3.group, {
     sel <- which(method.group == input$analysis.step3.group) - 2; 
     if (sel >= 0 & !is.na(sel) & !is.null(sel)) mth <- DeRNAseqMethods(sel) else mth <- NULL; 
-    
-    updateCheckboxGroupInput(session, 'analysis.step3.selection', label = 'Select DE methods:', 
-                             choices = DeRNAseqMs[[1]], selected = DeRNAseqMs[mth, 1], inline = TRUE); 
+    ids <- rep(FALSE, nrow(DeRNAseqMs));
+    ids[DeRNAseqMs[, 1] %in% DeRNAseqMs[mth, 1]] <- TRUE;
+
+    for (i in 1:length(ids))
+      updateCheckboxInput(session, paste('analysis.method.', DeRNAseqMs[i, 1], sep=''), value=ids[i]);
   });
   
   observeEvent(input$analysis.step3.button, {session.data$show <- 1 - session.data$show;});
@@ -195,7 +257,7 @@ server_analysis <- function(input, output, session, session.data) {
             ################################################################################################
             # Submit analysis
             setProgress(value=0.95);
-            rnaseq2g.run.analysis(session.data$dir)
+            rnaseq2g.run.analysis(session.data$dir, APP_HOME);
             session.data$run <- 1;
             ################################################################################################
           }

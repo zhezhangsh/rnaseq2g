@@ -1,4 +1,4 @@
-rnaseq2g.run.analysis <- function(dir) {
-  cmmd <- paste('Rscript --vanilla /srv/shiny-server/rnaseq_2g_zhangz/run_analysis.R', dir);
+rnaseq2g.run.analysis <- function(dir, APP_HOME) {
+  cmmd <- paste('Rscript --vanilla', paste(APP_HOME, 'run_analysis.R', sep='/'), dir); 
   system(cmmd, wait=FALSE, ignore.stdout = TRUE, ignore.stderr = TRUE);
 }

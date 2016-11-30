@@ -34,9 +34,5 @@ Column description:
   - **Function**: The main function and package within which the method was originally implemented. 
 </div>
 
-<div style="padding:0 0cm;">
-```{r echo=FALSE, results='asis'}
-kable(tbl, row.names = FALSE, format = 'markdown');
-```
-</div>
+`r kable(tbl, row.names = FALSE)`
 

@@ -2,23 +2,32 @@ server_result <- function(input, output, session, session.data) {
   
   ###################################################################################################
   ######################################## "Result" tab #############################################  
+  # Load example
+  observeEvent(input$result.load.example, { 
+    loaded <- rnaseq2g.retrieve.result('data/result/'); 
+    session.data$result <- loaded$result;
+    output$result.load.info  <- renderUI(h5(HTML(loaded$message)));
+    output$result.load.error <- renderUI(h5(HTML(loaded$error)));
+    rnaseq2g.update.selector(session, session.data, output=output);       
+  });
+  
   # Load results option 1
-  observeEvent(input$result.current.load, {
+  observeEvent(input$result.current.load, { 
     loaded <- rnaseq2g.retrieve.result(session.data$dir); 
     session.data$result <- loaded$result;
-    output$result.load.info <- renderUI(h5(HTML(loaded$message)));
+    output$result.load.info  <- renderUI(h5(HTML(loaded$message)));
     output$result.load.error <- renderUI(h5(HTML(loaded$error)));
-    rnaseq2g.update.selector(session, session.data); 
+    rnaseq2g.update.selector(session, session.data, output=output);       
   });
   
   # Load results option 2
   observeEvent(input$result.previous.load, {
     id <- input$result.previous.id; 
-    loaded <- rnaseq2g.retrieve.result(paste(APP_HOME, 'log', id, sep='/'));  
+    loaded <- rnaseq2g.retrieve.result(paste(APP_HOME, 'log', id, sep='/'));  saveRDS(loaded, 'loaded.rds');
     session.data$result <- loaded$result;
     output$result.load.info <- renderUI(h5(HTML(loaded$message)));
     output$result.load.error <- renderUI(h5(HTML(loaded$error)));
-    rnaseq2g.update.selector(session, session.data); 
+    rnaseq2g.update.selector(session, session.data, output=output); 
   });
   
   # Load results option 3
@@ -51,7 +60,7 @@ server_result <- function(input, output, session, session.data) {
             session.data$result <- res; 
             msg <- c('<p><font color="blue";>Results successfully loaded from local file: </font></p>', 
                      rnaseq2g.summarize.result(res$input, 'user') );
-            rnaseq2g.update.selector(session, session.data);
+            rnaseq2g.update.selector(session, session.data, output=output);
           } else {
             msg <- c('<p><font color="red">File not recognized; read [<b>Manual</b>] for detail:</font></p>', 
                      paste('<p>&nbsp&nbsp', msg, '</p>', sep=''));
@@ -135,30 +144,34 @@ server_result <- function(input, output, session, session.data) {
   
   # Plots
   output$result.show.plot <- renderPlotly({
-    rnaseq2g.plot.global(session.data$result, input$result.select.table, input$result.select.plot);
+    suppressMessages(suppressWarnings({
+      rnaseq2g.plot.global(session.data$result, input$result.select.table, input$result.select.plot);
+    }))
   });
   
   # Download plot
-  output$result.download.plot <- downloadHandler(
-    filename = function() {
-      nm <- c('1'='MA', '2'='Volcano', '3'='Pvalue', '4'='FDR')[input$result.select.plot];
-      paste(nm, input$result.download.plottype, sep='\\.');
-    },
-    content  = function(file) {
-      typ <- input$result.download.plottype;
-      if (!is.null(typ) & typ=='pdf') pdf(file, width=4.8, height = 6) else 
-        if (!is.null(typ) & typ=='png') png(file, width=4.8, height=6, unit='in', res=300) else
-          if (!is.null(typ) & typ=='jpeg') jpeg(file, width=4.8, height=6, unit='in', res=300) else
-            if (!is.null(typ) & typ=='tiff') tiff(file, width=4.8, height=6, unit='in', res=300);
-      
-      withProgress(
-        message = 'Drawing plot ...', {
-          rnaseq2g.plot.global(session.data$result, input$result.select.table, input$result.select.plot);
-          dev.off();
-        }
-      )
-    }
-  );
+  # output$result.download.plot <- downloadHandler(
+  #   filename = function() {
+  #     nm <- c('1'='MA', '2'='Volcano', '3'='Pvalue', '4'='FDR')[input$result.select.plot];
+  #     paste(nm, input$result.download.plottype, sep='\\.');
+  #   },
+  #   content  = function(file) {
+  #     typ <- input$result.download.plottype;
+  #     if (!is.null(typ) & typ=='pdf') pdf(file, width=4.8, height = 6) else 
+  #       if (!is.null(typ) & typ=='png') png(file, width=4.8, height=6, unit='in', res=300) else
+  #         if (!is.null(typ) & typ=='jpeg') jpeg(file, width=4.8, height=6, unit='in', res=300) else
+  #           if (!is.null(typ) & typ=='tiff') tiff(file, width=4.8, height=6, unit='in', res=300);
+  #     
+  #     withProgress(
+  #       message = 'Drawing plot ...', {
+  #         suppressMessages(suppressWarnings({
+  #           rnaseq2g.plot.global(session.data$result, input$result.select.table, input$result.select.plot);
+  #           dev.off();
+  #         }))
+  #       }
+  #     )
+  #   }
+  # );
   
   session.data;
 }

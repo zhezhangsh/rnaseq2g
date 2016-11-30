@@ -9,11 +9,12 @@ rnaseq2g.send.email <- function(mail.to, analysis.id) {
   
   subject <- "[No Reply] RNA-seq 2G analysis is done."
   body <- c(
-    paste('<p style="font-size:16px; color:blue">', analysis.id, '</font></p>', sep=''),
-    '<p><b><i>RNA-seq 2G</i></b> has finished the analysis above.</p>',
-    '<p>Go to <a href="http://rnaseq2g.awsomics.org">http://rnaseq2g.awsomics.org</a>, open the <b>[Result]</b> page, and enter the analysis ID to load results.</p>'
+    paste('<p>', analysis.id, '</p>', sep=''),
+    '<p><b>RNA-seq 2G</b> has finished the analysis above.</p>',
+    '<p>Go to http://rnaseq2g.awsomics.org, open the <u>Result]</u> page', 
+    'choose </u>Option 2</u>, and enter the analysis ID to load results.</p>'
   );
-  body <- paste(body, collapse='\n'); 
+  body <- paste(body, collapse=' '); 
   
   send.mail(from = user.name, to = mail.to, subject=subject, body = body, html = TRUE, authenticate = TRUE, send = TRUE,
             smtp = list(host.name = host.name, port = port, user.name = user.name, passwd = password, ssl = TRUE));

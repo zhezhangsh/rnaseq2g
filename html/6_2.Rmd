@@ -1,0 +1,21 @@
+---
+output:
+  html_document:
+    theme: null
+    mathjax: null
+---
+
+<div align='center'>
+<img src="figure/compare_rank.png", width='80%' />
+</div>
+<div style="color:darkblue; padding:0 3cm">
+**Compare p values.**
+
+Compare the significance and rankings of p values from selected methods.
+
+  - **A:** table including p values of both methods and ranking of genes by p values, for comparison.
+  - **B:** select a subset of top-ranked genes by either method.
+  - **C:** select the type of plot.
+  - **D:** one of these plots: quantile-quantile plot of p values; scatter plot of p value rankings; and Venn diagram of top-gene overlapping. 
+
+</div>

@@ -6,10 +6,12 @@ output:
 ---
 
 <div align='center'>
-<img src="figure/analysis_step1.png" width="90%" />
+<img src="figure/analysis_step1.png" width="80%" />
 </div>
-<div style="color:darkblue; padding:0 1cm">
+<div style="color:darkblue; padding:0 3cm">
 **Set up online DE analysis, Step 1.**
+
+Load read count matrix.
 
   - **A:** upload a local file of read count matrix in one of the acceptable formats.
   - **B:** click file extension to download an example file in acceptable format. 

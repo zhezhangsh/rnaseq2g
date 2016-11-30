@@ -1,0 +1,20 @@
+---
+output:
+  html_document:
+    theme: null
+    mathjax: null
+---
+
+<div align='center'>
+<img src="figure/meta_single.png", width='80%' />
+</div>
+<div style="color:darkblue; padding:0 3cm">
+**Single gene.**
+
+Show data and result of a single gene.
+
+  - **A:** enter the row name of a single gene.
+  - **B:** results of the gene from all selected DE methods.
+  - **C:** the expression level of the gene in all samples, using original read counts, normalized read counts, or log2-transformed data.
+
+</div>

@@ -2,81 +2,77 @@
 tabPanel(
   "Result",
   h1(HTML('<font color="tomato" face="Comic Sans MS"><center><b>Browse results</b></center></font>')),
+  
+  conditionalPanel(
+    condition = 'input["compare.select.table1"] == ""', 
+    rnaseq2g.write.prompt("Results will available after being loaded.")
+  ),
+  
   wellPanel(
+    rnaseq2g.write.header("Load results using one of these options"), br(),
     fluidRow(
-      h3(HTML("&nbsp&nbsp&nbspLoad results")),
-      column(6, wellPanel(
-        style='height: 360px',
-        fluidRow( # Load results, option 1
-          style='padding:15px;', 
-          h5(HTML("<b>Option 1: Current online analysis</b>")),
-          actionButton("result.current.load", 'Check status', icon("refresh"), width='150px', style=button.style)
+      column(
+        5,
+        selectizeInput(
+          'result.load.option', NULL, width='95%',
+          choices = list('Option 1: Current online analysis' = '1', 'Option 2: Previous online analysis' = '2',
+                         'Option 3: Upload results from an offline analysis' = '3')
         ),
-        fluidRow( # Load results, option 2
-          style='padding:15px;', 
-          div(
-            style="display: inline-block;", 
-            textInput("result.previous.id", 'Option 2: Previous online analysis', value = 'Enter analysis ID ...'), width='160px'),
-          div(
-            style="display: inline-block;", 
-            actionButton("result.previous.load", 'Load', icon("server"), width='85px', style=button.style))),
-        fluidRow( # Load results, option 3
-          style='padding:15px', 
-          fileInput(inputId = "result.previous.upload", label = "Option 3: Upload results of an offline analysis", width='90%'))
-      )),
-      column(6, wellPanel(style='height: 360px',
-        h5(HTML("<br><b>Loaded results:</b>")),
-        htmlOutput("result.load.info"),
-        br(),
-        htmlOutput("result.load.error")
-      ))
+        conditionalPanel(
+          condition = 'input["compare.select.table1"] == ""',
+          actionButton('result.load.example', 'Load an example', icon = icon('upload'), style=button.style2)
+        )
+      ),
+      column(
+        7, 
+        conditionalPanel(
+          condition = 'input["result.load.option"] == "1"',
+          actionButton("result.current.load", 'Click to check status', icon("refresh"), style=button.style)
+        ),
+        conditionalPanel(
+          condition = 'input["result.load.option"] == "2"',
+          column(8, textInput("result.previous.id", NULL, value = 'Enter analysis ID ...')),
+          column(4, actionButton("result.previous.load", 'Load', icon("server"), style=button.style))
+        ),
+        conditionalPanel(
+          condition = 'input["result.load.option"] == "3"',
+          fileInput(inputId = "result.previous.upload", label = NULL, width='90%')
+        )
+      )
+    ),
+    fluidRow(
+      column(5, htmlOutput("result.load.error")),
+      column(7, htmlOutput("result.load.info"))
     )
   ),
-  fluidRow( 
-    column(
-      7,
-      conditionalPanel(condition = 'input["result.select.table"] != ""',
-        wellPanel(fluidRow(
-          h3(HTML("&nbsp&nbspShow and filter results")),
-          div(style="display: inline-block;", h4(HTML("&nbsp&nbsp"))),
-          div(style="display: inline-block;", selectInput("result.select.table", label = "Select method", choices=list(), width='120px')),
-          div(style="display: inline-block;", h4(HTML("&nbsp"))),
-          div(style="display: inline-block;", selectInput("result.filter.p", label = 'P value', choices = choices.pv, width='80px')),
-          div(style="display: inline-block;", h4(HTML("&nbsp"))),
-          div(style="display: inline-block;", selectInput("result.filter.fc", label = 'Fold change', choices = choices.fc, width='120px')),   
-          div(style="display: inline-block;", h4(HTML("&nbsp&nbsp"))),
-          div(style="display: inline-block;", h4(HTML('<center>Download</center>')),
-              radioButtons('result.download.format', NULL, c('R', 'Text', 'Excel'), inline=TRUE)),
-          div(style="display: inline-block;", h4(HTML("&nbsp"))),
-          div(style="display: inline-block;", 
-              tags$head(tags$style(".dB{float:center;} .dB{font-family: Courier New;} .dB{background-color: tomato;} 
-                                   .dB{border-color: black;} .dB{height: 80%;} .dB{width: 120px;} .dB{font-size: 11px;}")),
-              downloadButton('result.download.current', label = 'This table', class = 'dB'), 
-              downloadButton('result.download.all', label = 'All results', class = 'dB')),
-          p(),
-          column(12, DT::dataTableOutput('result.show.table', width='100%'))
-        ))
+  
+  conditionalPanel(
+    condition = 'input["result.select.table"] != ""',
+    wellPanel(
+      rnaseq2g.write.header("List and visualize test statistics"), br(),
+      fluidRow(
+        div(style="display: inline-block;", h5(HTML("&nbsp&nbsp&nbsp&nbsp"))),
+        div(style="display: inline-block;", selectInput("result.select.table", label = "Select method", choices=list(), width='120px')),
+        div(style="display: inline-block;", h5(HTML("&nbsp"))),
+        div(style="display: inline-block;", selectInput("result.filter.p", label = 'P value', choices = choices.pv, width='80px')),
+        div(style="display: inline-block;", h5(HTML("&nbsp"))),
+        div(style="display: inline-block;", selectInput("result.filter.fc", label = 'Change', choices = choices.fc, width='80px')),   
+        div(style="display: inline-block;", h5(HTML("&nbsp&nbsp&nbsp"))),
+        div(style="display: inline-block;", h5(HTML('<center><b><u>Download result</u></b></center>')),
+            radioButtons('result.download.format', NULL, c('R', 'Text', 'Excel'), inline=TRUE)),
+        div(style="display: inline-block;", h5(HTML("&nbsp&nbsp"))),
+        div(style="display: inline-block;", 
+            tags$head(tags$style(".dB{float:center;} .dB{font-family: Courier New;} .dB{background-color: tomato;} 
+                                 .dB{border-color: black;} .dB{height: 80%;}")),
+            downloadButton('result.download.current', label = 'Table', class = 'dB'), 
+            downloadButton('result.download.all', label = 'All', class = 'dB')),
+        div(style="display: inline-block;", h5(HTML("&nbsp&nbsp&nbsp"))),
+        div(style="display: inline-block;", selectInput('result.select.plot', 'Select plot type', plot.type, selected = 1, width='150px'))
+      ),
+      fluidRow(
+        column(6, wellPanel(DT::dataTableOutput('result.show.table', width='100%'))),
+        column(6, wellPanel(plotlyOutput('result.show.plot', width = '100%', height = '480px'))) 
       )
-    ), # End of showing table panel
-    column(
-      5,
-      conditionalPanel(condition = 'input["result.select.table"] != ""',
-        wellPanel(fluidRow(
-          h3(HTML("&nbsp&nbsp&nbspPlot statistics")),
-          div(style="display: inline-block;", h4(HTML("&nbsp&nbsp&nbsp"))),
-          div(style="display: inline-block;", selectInput('result.select.plot', 'Select plot', plot.type, selected = 1, width='128')),
-          div(style="display: inline-block;", h4(HTML("&nbsp&nbsp&nbsp&nbsp"))),
-          div(style="display: inline-block;", h4(HTML('<center>Download</center>')),
-              radioButtons('result.download.plottype', label = NULL, choices = c('pdf', 'png', 'tiff'), selected = 'pdf', inline=TRUE)),
-          div(style="display: inline-block;", h4(HTML("&nbsp&nbsp"))),
-          div(style="display: inline-block;", 
-              tags$head(tags$style(".dB1{float:center;} .dB1{background-color: tomato;} .dB1{border-color: black;} .dB1{height: 80%;}")),
-              downloadButton('result.download.plot', label = '', class = 'dB1')
-          ), 
-          p(),
-          column(12, plotlyOutput('result.show.plot', width = '100%', height = '480px'))
-        ))
-      )
-    ) # End of showing plot panel
+    )
   )
 )

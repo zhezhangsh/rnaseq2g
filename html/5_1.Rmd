@@ -6,15 +6,17 @@ output:
 ---
 
 <div align='center'>
-<img src="figure/result_load.png", width='90%' />
+<img src="figure/result_load.png", width='80%' />
 </div>
-<div style="color:darkblue; padding:0 1cm">
+<div style="color:darkblue; padding:0 3cm">
 **Load results.**
 
+Load results of existing analysis, using one of three options.
+
   - **A:** there are 3 options to load results.
-    - **1:** load the available results of the current analysis. 
-    - **2:** load the results of a previous analysis by entering an analysis id. 
-    - **3:** upload the results from an offline analysis; read [**Run analysis offline**] page for more details.
+    - **Option 1:** load the available results of the current analysis. 
+    - **Option 2:** load the results of a previous analysis by entering an analysis id. 
+    - **Option 3:** upload the results from an offline analysis; read [**Run analysis offline**] page for more details.
   - **B:** how many selected methods have been finished and other information about the analysis.
   - **C:** whether there are errors out of the selected methods.
 </div>

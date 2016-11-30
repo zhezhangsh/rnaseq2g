@@ -6,10 +6,12 @@ output:
 ---
 
 <div align='center'>
-<img src="figure/analysis_step3.png", width='90%' />
+<img src="figure/analysis_step3.png", width='80%' />
 </div>
-<div style="color:darkblue; padding:0 1cm">
+<div style="color:darkblue; padding:0 3cm">
 **Set up online DE analysis, Step 3.**
+
+Select DE methods to run
 
   - **A:** pick the DE methods to run.
   - **B:** quickly pick a subset of methods to run.

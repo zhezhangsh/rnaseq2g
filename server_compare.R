@@ -6,7 +6,9 @@ server_compare <- function(input, output, session, session.data) {
   output$compare.show.plot1 <- renderPlotly({
     withProgress(
       message = 'Drawing plot ...', {
-        rnaseq2g.plot.global(session.data$result, input$compare.select.table1, input$compare.select.plot1);
+        suppressMessages(suppressWarnings({
+          rnaseq2g.plot.global(session.data$result, input$compare.select.table1, input$compare.select.plot1);
+        }))
       }
     )
   });
@@ -14,7 +16,9 @@ server_compare <- function(input, output, session, session.data) {
   output$compare.show.plot2 <- renderPlotly({
     withProgress(
       message = 'Drawing plot ...', {
-        rnaseq2g.plot.global(session.data$result, input$compare.select.table2, input$compare.select.plot2);
+        suppressMessages(suppressWarnings({
+          rnaseq2g.plot.global(session.data$result, input$compare.select.table2, input$compare.select.plot2);
+        }))
       }
     )
   });
@@ -41,12 +45,14 @@ server_compare <- function(input, output, session, session.data) {
       }
       tbl <- data.frame(Gene = rownames(tbl), tbl, stringsAsFactors = FALSE);
     } 
-  }, options = dt.options3, rownames=FALSE, selection = 'none', class = 'cell-border stripe');
+  }, options = dt.options5, rownames=FALSE, selection = 'none', class = 'cell-border stripe');
   
   # Plot p values
   output$compare.plot.pv <- renderPlotly({ 
-    rnaseq2g.plot.pvalue(session.data$result, input$compare.select.table1, input$compare.select.table2, 
-                         input$compare.pv.type, input$compare.top.gene, DeRNAseqMs);
+    suppressMessages(suppressWarnings({
+      rnaseq2g.plot.pvalue(session.data$result, input$compare.select.table1, input$compare.select.table2, 
+                           input$compare.pv.type, input$compare.top.gene, DeRNAseqMs);
+    }))
   });
   
   # Single gene table

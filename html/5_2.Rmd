@@ -6,10 +6,12 @@ output:
 ---
 
 <div align='center'>
-<img src="figure/result_table.png", width='90%' />
+<img src="figure/result_table.png", width='80%' />
 </div>
-<div style="color:darkblue; padding:0 1cm">
-**Result tables.**
+<div style="color:darkblue; padding:0 3cm">
+**View results.**
+
+Browse and plot results of any selected DE method.
 
   - **A:** select a result table to show; for current analysis, only results of finished DE methods will be available.
   - **B:** filter the result table by p value cutoffs.
@@ -17,4 +19,6 @@ output:
   - **D:** select the format of downloaded file.
   - **E:** just download the current table or all available results from the analysis.
   - **F:** the result table with 6 common columns from all DE methods; see [**Introduction**] -> [**Test statistics**] for more details.
+  - **G:** select the type of plot to summarize the results of the selected DE method.
+  - **H:** one of these plots: p value histogram; FDR curve; volcano plot; M-A plot; and P-A plot.
 </div>

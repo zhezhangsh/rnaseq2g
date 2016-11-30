@@ -6,10 +6,12 @@ output:
 ---
 
 <div align='center'>
-<img src="figure/analysis_step2.png", width='90%' />
+<img src="figure/analysis_step2.png", width='80%' />
 </div>
-<div style="color:darkblue; padding:0 1cm">
+<div style="color:darkblue; padding:0 3cm">
 **Set up online DE analysis, Step 2.**
+
+Define 2 sample groups to be compared and set up other parameters.
 
   - **A:** upload a local file of sample grouping in an acceptable formats; the group names and sample ID will show up in boxes on the right.
   - **B:** click file extension to download an example file in acceptable format.

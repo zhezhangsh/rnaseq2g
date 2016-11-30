@@ -2,18 +2,28 @@ server_metaanalysis <- function(input, output, session, session.data) {
 
   # Set up analysis
   observeEvent(input$meta.select.group, { 
-    sel <- input$meta.select.group; 
-    if (is.null(session.data$result)) all <- c() else all <- names(session.data$result[[2]]);
-    all <- as.list(DeRNAseqMs[rownames(DeRNAseqMs) %in% all, 1]); 
-    if (sel == '1') ms <- c() else if (sel == '2') ms <- all else {
-      if (length(all) >= 2) ms <- all[sample(1:length(all), sample(2:length(all), 1))] else ms <- all;
-    } 
-    updateCheckboxGroupInput(session, 'meta.select.box', label = '', choices = all, selected = ms, inline = TRUE);
+    if (!is.null(session.data$result)) {
+      nms <- DeRNAseqMs[names(session.data$result[[2]]), 1]; 
+      if (length(nms) > 1) {
+        sel <- input$meta.select.group;
+        ids <- rep(FALSE, length(nms)); 
+        if (sel == '2') ids <- rep(TRUE, length(nms));
+        if (sel == '3') ids[sample(1:length(ids), sample(2:length(ids), 1))] <- TRUE;
+        for (i in 1:length(ids))
+          updateCheckboxInput(session, paste('meta.method.', nms[i], sep=''), value=ids[i]);
+      }
+    }
   });
   
   # Run meta-analysis
   observeEvent(input$meta.run, { 
-    ms <- input$meta.select.box; 
+    ms <- names(session.data$result[[2]]);
+    ms <- ms[ms %in% rownames(DeRNAseqMs)]; 
+    ms <- DeRNAseqMs[ms, 1]; 
+    ids <- paste('meta.method.', ms, sep=''); 
+    sel <- c();
+    for (i in 1:length(ids)) sel[i] <- input[[ids[i]]]; 
+    ms <- ms[sel]; 
     nm <- rownames(DeRNAseqMs)[DeRNAseqMs[, 1] %in% ms]; 
     if (length(ms) < 2) {      
       output$meta.run.message <- renderUI(h5(HTML('<font color="red";>Require 2 or more DE methods to run meta-analysis.</font>')));
@@ -62,10 +72,12 @@ server_metaanalysis <- function(input, output, session, session.data) {
       
       tbl;
     }
-  }, options = dt.options3, rownames=FALSE, selection = 'none', class = 'cell-border stripe');
+  }, options = dt.options5, rownames=FALSE, selection = 'none', class = 'cell-border stripe');
   
   output$meta.plot.pv <- renderPlotly({
-    rnaseq2g.plot.meta(session.data$meta, input$meta.pv.type, input$meta.compare.method, input$meta.top.gene);
+    suppressMessages(suppressWarnings({
+      rnaseq2g.plot.meta(session.data$meta, input$meta.pv.type, input$meta.compare.method, input$meta.top.gene);
+    }))
   });
   
   # Download meta-analysis result table
@@ -90,7 +102,6 @@ server_metaanalysis <- function(input, output, session, session.data) {
       } 
     }
   ); # 
-  
   
   # Single gene table
   output$meta.single.table <- DT::renderDataTable({
@@ -118,7 +129,9 @@ server_metaanalysis <- function(input, output, session, session.data) {
   
   # Single gene barplot
   output$meta.single.plot <- renderPlotly({
-    rnaseq2g.plot.single(session.data$result, input$meta.single.id, input$meta.single.type);
+    suppressMessages(suppressWarnings({
+      rnaseq2g.plot.single(session.data$result, input$meta.single.id, input$meta.single.type);
+    }))
   });
   
   session.data;
