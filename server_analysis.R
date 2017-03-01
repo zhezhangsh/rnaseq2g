@@ -218,15 +218,15 @@ server_analysis <- function(input, output, session, session.data) {
       updateCheckboxInput(session, paste('analysis.method.', DeRNAseqMs[i, 1], sep=''), value=ids[i]);
   });
   
-  observeEvent(input$analysis.step3.button, {session.data$show <- 1 - session.data$show;});
-  output$analysis.step3.panel1 <- renderUI({
-    if (session.data$show == 0) l <- 'Show method description' else l <- 'Hide method description';
-    actionLink('analysis.step3.button', label = h4(HTML('<font color="blue"><u>', l, '</u></font>')));
-  }); 
-  output$analysis.step3.panel2 <- renderUI({
-    if (session.data$show == 0) br() else DT::dataTableOutput('analysis.step3.table', width='100%')
-  });
-  output$analysis.step3.table <- DT::renderDataTable({
+  # observeEvent(input$analysis.step3.button, {session.data$show <- 1 - session.data$show;});
+  # output$analysis.step3.panel1 <- renderUI({
+  #   if (session.data$show == 0) l <- 'Show method description' else l <- 'Hide method description';
+  #   actionLink('analysis.step3.button', label = h4(HTML('<font color="blue"><u>', l, '</u></font>')));
+  # }); 
+  # output$analysis.step3.panel2 <- renderUI({
+  #   if (session.data$show == 0) br() else DT::dataTableOutput('analysis.step3.table', width='100%')
+  # });
+  output$analysis.step3.methods <- DT::renderDataTable({
     tbl <- DeRNAseqMs[, 1:8];
     tbl[, 1] <- AddHref(tbl[, 1], DeRNAseqMs[, 10]); 
     tbl;

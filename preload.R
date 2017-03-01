@@ -1,7 +1,7 @@
 # Pre-load packages and data when this App is started
 .libPaths("/home/zhangz/R/x86_64-pc-linux-gnu-library/3.3");
-#APP_HOME <- "/srv/shiny-server/rnaseq_2g_dev"; 
-APP_HOME <- "/srv/shiny-server/rnaseq_2g";
+#APP_HOME <- "/srv/shiny-server/rnaseq2g_dev"; 
+APP_HOME <- "/srv/shiny-server/rnaseq2g";
 
 require(XML);
 require(readxl);
@@ -43,28 +43,29 @@ choices.fc    <- list('None' = 0, '5%' = log2(1.05), '10%' = log2(1.1), '25%' = 
 dt.options1 <- list(
   dom = 't', scrollX = TRUE, 
   initComplete = DT::JS("function(settings, json) {",
-                        "$(this.api().table().header()).css({'background-color': '#666', 'color': '#fff'});", 
+                        "$(this.api().table().header()).css({'background-color': '#888', 'color': '#fff'});", 
                         "}"));
 dt.options2 <- list(
   dom = 't', scrollX = FALSE, pageLength = 100, 
   initComplete = DT::JS("function(settings, json) {",
-                        "$(this.api().table().header()).css({'background-color': '#666', 'color': '#fff'});", 
+                        "$(this.api().table().header()).css({'background-color': '#888', 'color': '#fff'});", 
                         "}"));
 
 dt.options3 <- list(
   scrollX = TRUE, pageLength = 10, 
   initComplete = DT::JS("function(settings, json) {",
-                        "$(this.api().table().header()).css({'background-color': '#666', 'color': '#fff'});", 
+                        "$(this.api().table().header()).css({'background-color': '#888', 'color': '#fff'});", 
                         "}"));
 
 dt.options4 <- list(
   dom = 't', scrollX = TRUE, pageLength = 100, 
   initComplete = DT::JS("function(settings, json) {",
-                        "$(this.api().table().header()).css({'background-color': '#666', 'color': '#fff'});", 
+                        "$(this.api().table().header()).css({'background-color': '#888', 'color': '#fff'});", 
                         "}"));
 
 dt.options5 <- list(
   scrollX = TRUE, pageLength = 12, 
   initComplete = DT::JS("function(settings, json) {",
-                        "$(this.api().table().header()).css({'background-color': '#666', 'color': '#fff'});", 
+                        "$(this.api().table().header()).css({'background-color': '#888', 'color': '#fff'});", 
                         "}"));
+

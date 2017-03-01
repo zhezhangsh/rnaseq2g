@@ -1,4 +1,4 @@
-path <- "/srv/shiny-server/rnaseq_2g/log";
+path <- "/srv/shiny-server/rnaseq2g/log";
 
 require(RoCA);
 
