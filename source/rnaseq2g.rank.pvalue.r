@@ -4,8 +4,24 @@ rnaseq2g.rank.pvalue <- function(res, nms, mth) {
   tbl2 <- res[[2]][[nms[2]]];
   nms  <- mth[nms, 1]; 
   
-  x1 <- tbl1[, 5]; x1[is.na(x1)] <- 0; rk1 <- rank(x1);
-  x2 <- tbl2[, 5]; x2[is.na(x2)] <- 0; rk2 <- rank(x2);
+  rks <- function(tbl) {
+    x1 <- tbl[, 5];
+    x1[is.na(x1)] <- 1;
+    x2 <- tbl[, 4];
+    x2[is.na(x2)] <- 0;
+    x3 <- tbl[, 3];
+    x3[is.na(x3)] <- 0;
+    od <- order(x1, -abs(x2), -abs(x3)); 
+    rk <- NA;
+    rk[od] <- 1:length(od);
+    rk; 
+  }
+  
+  rk1 <- rks(tbl1);
+  rk2 <- rks(tbl2);
+  
+  # x1 <- tbl1[, 5]; x1[is.na(x1)] <- 0; rk1 <- rank(x1);
+  # x2 <- tbl2[, 5]; x2[is.na(x2)] <- 0; rk2 <- rank(x2);
   
   tbl1 <- cbind(Mean=rowMeans(tbl1[, 1:2]), tbl1[, 4:6]);
   tbl2 <- cbind(Mean=rowMeans(tbl2[, 1:2]), tbl2[, 4:6]);

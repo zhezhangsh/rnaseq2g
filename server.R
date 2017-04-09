@@ -17,6 +17,7 @@ shinyServer(function(input, output, session) {
   session.data <- reactiveValues(id = sid, dir = dir, show = 0, run = 0, matrix = NULL, result = NULL, meta = NULL);
   if (!file.exists(dir)) dir.create(dir, recursive = TRUE);
   
+  ########################################################################################################
   # debugging code
   # session.data <- reactiveValues(id = sid, dir = dir, show = 0, run = 0, matrix = NULL, result = loaded$result, meta = NULL);
   # observeEvent(input$meta.select.method, {

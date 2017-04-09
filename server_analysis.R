@@ -46,10 +46,13 @@ server_analysis <- function(input, output, session, session.data) {
     if (is.null(input$analysis.step1.upload)) session.data$matrix <- NULL else {
       uploaded <- input$analysis.step1.upload; 
       if (file.exists(uploaded$datapath)) {
+        if (!dir.exists(session.data$dir)) dir.create(session.data$dir); 
         fn.mtrx  <- paste(session.data$dir, uploaded$name, sep='/');
         file.copy(uploaded$datapath, fn.mtrx); 
         session.data$matrix <- tryCatch({
           tbl <- as.matrix(ImportTable(fn.mtrx));
+          tbl <- tbl[rownames(tbl)!='', , drop=FALSE];
+          tbl <- tbl[, colSums(abs(tbl))>0, drop=FALSE]; 
           # Table dimension
           output$analysis.step1.size <- renderUI(list(h4(HTML(paste(
             '<font color="darkgreen">The loaded matrix includes', nrow(tbl), 'rows (genes) and', ncol(tbl), 'columns (samples).</font>')))));
@@ -249,6 +252,7 @@ server_analysis <- function(input, output, session, session.data) {
           setProgress(value=0.75);
           
           if(!is.null(inp)) {
+            if (!dir.exists(session.data$dir)) dir.create(session.data$dir); 
             fn <- paste(session.data$dir, 'inputs.rds', sep='/'); 
             saveRDS(inp, fn); 
             setProgress(value=0.90);

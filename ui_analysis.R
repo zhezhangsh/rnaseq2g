@@ -13,7 +13,7 @@ tabPanel(
   wellPanel(
     rnaseq2g.write.header("Step 1. Upload a read count matrix"),
     
-    checkboxInput('analysis.step1.instruction', HTML('<u>Show instruction</u>')),
+    checkboxInput('analysis.step1.instruction', HTML('<u>Show instruction</u>'), value = TRUE),
     
     conditionalPanel(
       condition = 'input["analysis.step1.instruction"] == true',

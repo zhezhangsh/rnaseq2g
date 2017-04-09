@@ -13,21 +13,25 @@ server_result <- function(input, output, session, session.data) {
   
   # Load results option 1
   observeEvent(input$result.current.load, { 
-    loaded <- rnaseq2g.retrieve.result(session.data$dir); 
-    session.data$result <- loaded$result;
-    output$result.load.info  <- renderUI(h5(HTML(loaded$message)));
-    output$result.load.error <- renderUI(h5(HTML(loaded$error)));
-    rnaseq2g.update.selector(session, session.data, output=output);       
+    withProgress({
+      loaded <- rnaseq2g.retrieve.result(session.data$dir); 
+      session.data$result <- loaded$result;
+      output$result.load.info  <- renderUI(h5(HTML(loaded$message)));
+      output$result.load.error <- renderUI(h5(HTML(loaded$error)));
+      rnaseq2g.update.selector(session, session.data, output=output);       
+    }, message = "Loading results ... ...", detail = 'Please wait')
   });
   
   # Load results option 2
   observeEvent(input$result.previous.load, {
-    id <- input$result.previous.id; 
-    loaded <- rnaseq2g.retrieve.result(paste(APP_HOME, 'log', id, sep='/'));  saveRDS(loaded, 'loaded.rds');
-    session.data$result <- loaded$result;
-    output$result.load.info <- renderUI(h5(HTML(loaded$message)));
-    output$result.load.error <- renderUI(h5(HTML(loaded$error)));
-    rnaseq2g.update.selector(session, session.data, output=output); 
+    withProgress({
+      id <- input$result.previous.id; 
+      loaded <- rnaseq2g.retrieve.result(paste(APP_HOME, 'log', id, sep='/'));  saveRDS(loaded, 'loaded.rds');
+      session.data$result <- loaded$result;
+      output$result.load.info <- renderUI(h5(HTML(loaded$message)));
+      output$result.load.error <- renderUI(h5(HTML(loaded$error)));
+      rnaseq2g.update.selector(session, session.data, output=output);         
+    }, message = "Loading results ... ...", detail = 'Please wait')
   });
   
   # Load results option 3
